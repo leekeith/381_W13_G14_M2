@@ -27,3 +27,13 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+# NIOS 2 C ignores
+
+*.bak
+*.o
+*.d
+*.elf
+*.map
+*.objdump
+create-this-app
