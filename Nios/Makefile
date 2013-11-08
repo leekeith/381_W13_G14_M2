@@ -142,7 +142,11 @@ ACDS_VERSION := 12.0sp2
 ELF := EECE381BASE.elf
 
 # Paths to C, C++, and assembly source files.
-C_SRCS :=
+C_SRCS += main.c
+C_SRCS += lib_bitmap.c
+C_SRCS += sdcard.c
+C_SRCS += wk_video.c
+C_SRCS += lib_instr.c
 CXX_SRCS :=
 ASM_SRCS :=
 
