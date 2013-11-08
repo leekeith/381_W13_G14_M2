@@ -30,6 +30,7 @@ proguard/
 
 # NIOS 2 C ignores
 
+*.fore_relink
 *.a
 *.bak
 *.o
