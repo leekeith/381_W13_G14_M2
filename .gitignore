@@ -30,6 +30,7 @@ proguard/
 
 # NIOS 2 C ignores
 
+*.a
 *.bak
 *.o
 *.d
