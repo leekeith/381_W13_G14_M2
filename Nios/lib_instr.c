@@ -17,3 +17,19 @@ void instr_make(instr_t* instr, char string[128])
 	instr->message[i]=0;
 }
 
+void instr_send(instr_t* instr)
+{
+	char string[128];
+	int o;
+	string[0]=instr->cmd;
+	string[1]=instr->pixel&0xff;
+	string[2]=(instr->pixel&0xff00)>>8;
+	string[3]=(instr->pixel&0xff0000)>>16;
+	string[4]=(instr->pixel&0xff000000)>>24;
+	string[5]=instr->color&0xff;
+	string[6]=(instr->color&0xff00)>>8;
+	for(o=7;o<128;o++)
+		string[o]=instr->message[o-7];
+	//Send string to Android
+}
+

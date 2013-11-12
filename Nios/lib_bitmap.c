@@ -184,3 +184,19 @@ int bitmapToSDcard(bitmap_t* bmp)
 	free(data);
 	return 0;
 }
+
+void fillPixel(unsigned short* image, int pix_offset, short color)
+{
+	image[pix_offset]=color;
+}
+
+void fillColor(unsigned short* image, int pix_offset, short color)
+{
+	int i;
+	short startColor=image[pix_offset];
+	for(i=0;i<STD_W*STD_H;i++)
+	{
+		if(image[i]==startColor)
+			fillPixel(image,i,color);
+	}
+}

@@ -41,4 +41,6 @@ typedef struct bitmap
 bitmap_t* scr16ToBitmap24(short* data, int width, int height);
 int bitmapToSDcard(bitmap_t* bmp);
 
+void fillPixel(unsigned short* image, int pix_offset, short color);
+void fillColor(unsigned short* image, int pix_offset, short color);
 #endif /* LIB_BITMAP_H_ */

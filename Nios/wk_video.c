@@ -12,6 +12,8 @@
 #define VRAM_H 240
 #define VRAM_D 2
 
+#define VRAM_ADDR2 (VRAM_ADDR+(SRAM_SPAN/2))
+
 
 
 ////////////////////////////////
