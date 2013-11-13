@@ -4,5 +4,9 @@
     <string name="app_name">Android Base</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
+    <string name="button_draw">Start Drawing</string>
+    <string name="menu_settings">Settings</string>
+    <string name="title_activity_gfxsurface">Draw Screen</string>
+    <string name="title_activity_draw">Draw</string>
 
 </resources>

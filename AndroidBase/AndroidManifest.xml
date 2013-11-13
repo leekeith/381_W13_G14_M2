@@ -22,6 +22,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="ca.ce381w13g14m2.androidbase.GFXSurface"
+            android:label="@string/title_activity_gfxsurface"
+            android:parentActivityName="ca.ce381w13g14m2.androidbase.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.ce381w13g14m2.androidbase.MainActivity" />
+        </activity>
+        <activity
+            android:name="ca.ce381w13g14m2.androidbase.Draw"
+            android:label="@string/title_activity_draw"
+            android:parentActivityName="ca.ce381w13g14m2.androidbase.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="ca.ce381w13g14m2.androidbase.MainActivity" />
+        </activity>
     </application>
 
 </manifest>
