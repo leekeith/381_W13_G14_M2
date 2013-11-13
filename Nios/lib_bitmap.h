@@ -7,6 +7,7 @@
 
 #ifndef LIB_BITMAP_H_
 #define LIB_BITMAP_H_
+#include"lib_instr.h"
 
 #define STD_W 320
 #define STD_H 240
@@ -42,5 +43,5 @@ bitmap_t* scr16ToBitmap24(short* data, int width, int height);
 int bitmapToSDcard(bitmap_t* bmp);
 
 void fillPixel(unsigned short* image, int pix_offset, short color);
-void fillColor(unsigned short* image, int pix_offset, short color);
+void fillColor(unsigned short* image, int pix_offset, short color, range_t* r);
 #endif /* LIB_BITMAP_H_ */

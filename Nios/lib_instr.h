@@ -17,7 +17,8 @@ typedef enum e_instr_type{
 	GET_H='H',
 	FILL_COLOR='C',
 	QUIT='X',
-	NONE='0'
+	NONE='0',
+	CONFIRM='N'
 }instr_type;
 
 typedef struct e_instr
@@ -27,6 +28,11 @@ typedef struct e_instr
 	unsigned short color;
 	char message[121];
 }instr_t;
+
+typedef struct e_range
+{
+int start,stop,pos,sync;
+}range_t;
 
 void instr_make(instr_t* instr, char string[128]);
 void instr_send(instr_t* instr);

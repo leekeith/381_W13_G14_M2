@@ -31,5 +31,7 @@ void instr_send(instr_t* instr)
 	for(o=7;o<128;o++)
 		string[o]=instr->message[o-7];
 	//Send string to Android
+	printf(instr->message);
+	printf("\n");
 }
 
