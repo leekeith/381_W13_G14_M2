@@ -35,10 +35,14 @@ alt_u32 isr_alarm(void* context)
 void drawGrid(alt_up_pixel_buffer_dma_dev* screen)
 {
 	int i;
-	for(i=0;i<=10;i++)
+	drawLine(screen, 0,0, 0,VRAM_H-1, GRID_COLOR);
+	drawLine(screen, VRAM_W-1,0, VRAM_W-1,VRAM_H-1, GRID_COLOR);
+	drawLine(screen, 0,VRAM_H-1, VRAM_W-1,VRAM_H-1, GRID_COLOR);
+	drawLine(screen, 0,0, VRAM_W-1,0, GRID_COLOR);
+	for(i=1;i<10;i++)
 	{
-		drawLine(screen, i*(VRAM_W/10),0, i*(VRAM_W/10),VRAM_H, GRID_COLOR);
-		drawLine(screen, 0,i*(VRAM_H/10), VRAM_W,i*(VRAM_H/10), GRID_COLOR);
+		drawLine(screen, i*(VRAM_W/10),0, i*(VRAM_W/10),VRAM_H-1, GRID_COLOR);
+		drawLine(screen, 0,i*(VRAM_H/10), VRAM_W-1,i*(VRAM_H/10), GRID_COLOR);
 	}
 }
 
@@ -60,6 +64,15 @@ void saveBmp(short* img)
 	the_bmp=scr16ToBitmap24(img, STD_W, STD_H);
 	bitmapToSDcard(the_bmp);
 	free(the_bmp);
+}
+
+void setRange(range_t* r, int p)
+{
+	if(p<r->start)
+		r->start=p;
+	if((p+1)>r->stop)
+		r->stop=p+1;
+	r->sync=1;
 }
 
 int main(int argc, char** argv)
@@ -85,7 +98,7 @@ int main(int argc, char** argv)
 	{
 		instrs[i].cmd=FILL_PIXEL;
 		instrs[i].pixel=i+STD_W*5;
-		instrs[i].color=mkColor(255,0,0);
+		instrs[i].color=mkColor(55,122,255);
 	}
 	//instrs[19].cmd=QUIT;
 #endif
@@ -94,7 +107,7 @@ int main(int argc, char** argv)
 	screen=pixelInit();
 	alarm=(alt_alarm*)malloc(sizeof(alt_alarm));
 	nticks=alt_ticks_per_second();
-	if(alt_alarm_start(alarm,nticks/30,isr_alarm,NULL)<0)printf("\nNo timer\n");
+
 
 	//Boolean loop controllers
 	grid_on=1;
@@ -111,7 +124,9 @@ int main(int argc, char** argv)
 	for(i=0;i<121;i++)
 		instr.message[i]=0;
 
-
+	range->start=STD_W*STD_H;
+	range->stop=0;
+	range->sync=0;
 	//allocate DRAM image space
 	image=(unsigned short*)malloc(STD_W*STD_H*sizeof(short));
 
@@ -119,6 +134,7 @@ int main(int argc, char** argv)
 	//SetUp
 	clrScr(screen);
 	back_buffer=alt_remap_uncached((void*)screen->back_buffer_start_address,STD_W*STD_H);
+	if(alt_alarm_start(alarm,nticks/30,isr_alarm,NULL)<0)printf("\nNo Alarm 1\n");
 
 	//main loop
 
@@ -126,7 +142,7 @@ int main(int argc, char** argv)
 	{
 #ifdef NO_COMMS
 		//Get next premaed instruction
-		if(instr.cmd==NONE)
+		if(instr.cmd==NONE&&instr_index<20)
 		{
 			instr.cmd=instrs[instr_index].cmd;
 			instr.pixel=instrs[instr_index].pixel;
@@ -155,12 +171,15 @@ int main(int argc, char** argv)
 			case FILL_PIXEL:
 				//Draws a single pixel
 				fillPixel(image,instr.pixel,instr.color);
+				setRange(range,instr.pixel);
+				instr.cmd=NONE;
 				redraw=1;
 				break;
 			case FILL_SCR:
 				//Fills entire screen with selected color
 				for(i=0;i<STD_W*STD_H;i++)
 					fillPixel(image,i,instr.color);
+				instr.cmd=NONE;
 				redraw=1;
 				break;
 			case GET_PIXEL:
@@ -201,24 +220,39 @@ int main(int argc, char** argv)
 			instr_send(&instr);
 		}
 
-		if(redraw)
-		{
-			//Redraw image to back buffer
-			imgToBbuffer(image,back_buffer,STD_W,STD_H);
-			instr.cmd=NONE;
-			redraw=0;
-		}
+
 
 		if(buf_swap)
 		{
 			//If the buffer is to be swapped, redraw grid and swap
 			//printf("swap\n");
+
+			if(redraw)
+			{
+				if(range->sync)
+					imgToBbuffer(image+range->start,back_buffer+range->start,range->stop-range->start,1);
+				else
+					imgToBbuffer(image,back_buffer,STD_W,STD_H);
+			}
 			if(grid_on)
 				drawGrid(screen);
-
 			swapBuffer(screen);
 			//update pointer to back buffer
 			back_buffer=alt_remap_uncached((void*)screen->back_buffer_start_address,STD_W*STD_H);
+			if(redraw)
+			{
+				if(range->sync)
+				{
+					imgToBbuffer((image+range->start),(back_buffer+range->start),(range->stop-range->start),1);
+					range->start=STD_W*STD_H;
+					range->stop=0;
+					range->sync=0;
+				}
+				//Redraw image to back buffer
+				else
+					imgToBbuffer(image,back_buffer,STD_W,STD_H);
+				redraw=0;
+			}
 			buf_swap=0;
 			redraw=1;
 		}
