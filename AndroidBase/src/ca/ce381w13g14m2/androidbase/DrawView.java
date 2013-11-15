@@ -16,6 +16,7 @@ import android.view.View.OnTouchListener;
 
 public class DrawView extends View implements OnTouchListener {
 private static final String TAG = "DrawView";
+public static boolean clear = false;
 
     List<Point> points = new ArrayList<Point>();
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -25,13 +26,12 @@ private static final String TAG = "DrawView";
         super(context, attribute_set );
         setFocusable(true);
         setFocusableInTouchMode(true);
-
+        
         this.setOnTouchListener(this);
-        paint.setStrokeWidth(8);
         paint.setStyle(Paint.Style.STROKE);
-
         paint.setColor(Color.RED);
         paint.setAntiAlias(true);
+        paint.setStrokeWidth(MainActivity.brushWidth);
     }
 
     @Override
@@ -43,7 +43,9 @@ private static final String TAG = "DrawView";
     }*/
     
     public void onDraw(Canvas canvas) {
+ 
         boolean first = true;
+        paint.setStrokeWidth(MainActivity.brushWidth);
         for(Point point : points){
             if(first){
                 first = false;
@@ -54,16 +56,21 @@ private static final String TAG = "DrawView";
             }
         }
         canvas.drawPath(path, paint);
-        
+        points.clear(); //THIS ENDS THE LINE?
     }
 
     public boolean onTouch(View view, MotionEvent event) {
         // if(event.getAction() != MotionEvent.ACTION_DOWN)
         // return super.onTouchEvent(event);
+        if (clear){
+        	clear = false;
+        	points.clear();
+        	path.reset();
+        }
         Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
-        points.add(point);
+        points.add(point);      
         invalidate();
         Log.d(TAG, "point: " + point);
         return true;
