@@ -26,7 +26,8 @@ typedef struct e_instr
 	instr_type cmd;
 	unsigned int pixel;
 	unsigned short color;
-	char message[121];
+	unsigned char width;
+	char message[12];
 }instr_t;
 
 typedef struct e_range

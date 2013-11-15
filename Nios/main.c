@@ -58,7 +58,7 @@ void imgToBbuffer(unsigned short* img, unsigned short* bbuff, int w, int h)
 
 //Converts image data to BITMAP24 and generates a header, then writes to
 //the SD card
-void saveBmp(short* img)
+void saveBmp(unsigned short* img)
 {
 	bitmap_t* the_bmp;
 	the_bmp=scr16ToBitmap24(img, STD_W, STD_H);
@@ -89,24 +89,28 @@ int main(int argc, char** argv)
 
 #ifdef NO_COMMS
 	//Prebuilt instructions to test pixel buffer operation
-	instr_t instrs[20];
+	instr_t instrs[120];
 	int instr_index=0;
 	instrs[0].cmd=FILL_SCR;
 	instrs[0].pixel=0;
 	instrs[0].color=mkColor(127,0,255);
-	for(i=1;i<=19;i++)
+	for(i=1;i<118;i++)
 	{
 		instrs[i].cmd=FILL_PIXEL;
 		instrs[i].pixel=i+STD_W*5;
 		instrs[i].color=mkColor(55,122,255);
 	}
-	//instrs[19].cmd=QUIT;
+	instrs[118].cmd=SAVE;
+	instrs[119].cmd=FILL_COLOR;
+	instrs[119].pixel=0;
+	instrs[119].color=0;
 #endif
 
 	//Initializations
 	screen=pixelInit();
 	alarm=(alt_alarm*)malloc(sizeof(alt_alarm));
 	nticks=alt_ticks_per_second();
+	sdcard_init();
 
 
 	//Boolean loop controllers
@@ -142,7 +146,7 @@ int main(int argc, char** argv)
 	{
 #ifdef NO_COMMS
 		//Get next premaed instruction
-		if(instr.cmd==NONE&&instr_index<20)
+		if(instr.cmd==NONE&&instr_index<120)
 		{
 			instr.cmd=instrs[instr_index].cmd;
 			instr.pixel=instrs[instr_index].pixel;

@@ -16,7 +16,7 @@ void color16to24(char* c24,short c16)
 	temp=c16&(0xf800);
 	c24[0]=(char)(temp>>8);
 	temp=c16&(0x07E0);
-	c24[1]=(char)(temp>>5);
+	c24[1]=(char)(temp>>3);
 	temp=c16&(0x001F);
 	c24[2]=(char)(temp<<3);
 }
@@ -74,7 +74,9 @@ bitmap_t* scr16ToBitmap24(short* data, int width, int height)
 int bitmapToSDcard(bitmap_t* bmp)
 {
 	unsigned char* data;
-	int i,timeout;
+	unsigned int i,timeout;
+	alt_u8 create;
+	create=1;
 	short int handle;
 	if(!sdcard_present())
 		return -1;
@@ -155,8 +157,9 @@ int bitmapToSDcard(bitmap_t* bmp)
 
 	timeout=0;
 	do{
-	handle=sdcard_fopen((char*)bmp->filename, 1);
+	handle=sdcard_fopen((char*)bmp->filename, create);
 	timeout++;
+	create=0;
 	}while(handle<0 && timeout<50);
 
 	if(handle<0)
