@@ -16,32 +16,48 @@ import android.view.View.OnTouchListener;
 
 public class DrawView extends View implements OnTouchListener {
 private static final String TAG = "DrawView";
+private static String send_data = null;
 public static boolean clear = false;
-public static int color = Color.BLACK;
+public static int color = Color.RED;
+public static int i = 0;
 
     List<Point> points = new ArrayList<Point>();
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    Paint paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path path = new Path();
-	
+
     public DrawView(Context context, AttributeSet attribute_set) {
         super(context, attribute_set );
         setFocusable(true);
         setFocusableInTouchMode(true);
-        
+
         this.setOnTouchListener(this);
+        paint.setStrokeWidth(8);
         paint.setStyle(Paint.Style.STROKE);
         paint.setColor(color);
+        paint_border.setStrokeWidth(2);
+        paint_border.setStyle(Paint.Style.STROKE);
+
+        paint.setColor(Color.RED);
         paint.setAntiAlias(true);
-        paint.setStrokeWidth(MainActivity.brushWidth);
+        paint_border.setColor(Color.BLUE);
+        paint_border.setAntiAlias(true);
+        
     }
 
-    @Override
+
     public void onDraw(Canvas canvas) {
- 
-        boolean first = true;
+    	canvas.drawRect(0, 0, getWidth(), getHeight(), paint_border);
+    	boolean first = true;
         paint.setStrokeWidth(MainActivity.brushWidth);
-        paint.setColor(color);
-        for(Point point : points){
+    	if(clear)
+    	{
+    		clear = false;
+    		points.clear();
+    		path.reset();
+    	}
+    	paint.setColor(color);
+    	for(Point point : points){
             if(first){
                 first = false;
                 path.moveTo(point.x, point.y);
@@ -51,23 +67,25 @@ public static int color = Color.BLACK;
             }
         }
         canvas.drawPath(path, paint);
-       // points.clear(); //THIS ENDS THE LINE?
+        
     }
 
     public boolean onTouch(View view, MotionEvent event) {
         // if(event.getAction() != MotionEvent.ACTION_DOWN)
         // return super.onTouchEvent(event);
-        if (clear){
-        	clear = false;
-        	points.clear();
-        	path.reset();
-        }
         Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
-        points.add(point);      
+        points.add(point);
         invalidate();
-        Log.d(TAG, "point: " + point);
+        //Log.d(TAG, "point: " + point);
+        
+        i = ((int)point.y * 600) + (int)point.x;
+        send_data = Integer.toString(i);
+        Log.d(TAG, send_data);
+        
+        if (event.getAction() == android.view.MotionEvent.ACTION_UP)
+        	points.clear();
         return true;
     }
 }

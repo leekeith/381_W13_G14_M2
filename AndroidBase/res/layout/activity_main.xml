@@ -1,6 +1,6 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout2"
+    android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -12,61 +12,91 @@
 
     <ca.ce381w13g14m2.androidbase.DrawView
         android:id="@+id/drawView1"
+        android:layout_width="600dp"
+        android:layout_height="450dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:background="@drawable/grid" />
+
+    <Button
+        android:id="@+id/button1"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_weight="1.00" />
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/drawView1"
+        android:layout_toLeftOf="@+id/ImageButton02"
+        android:onClick="onClear"
+        android:text="@string/button_clear" />
 
-    <LinearLayout
+    <ImageButton
+        android:id="@+id/ImageButton01"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/ImageButton03"
+        android:layout_marginRight="36dp"
+        android:layout_toLeftOf="@+id/ImageButton03"
+        android:background="@drawable/red"
+        android:onClick="color_red" />
+
+    <ImageButton
+        android:id="@+id/ImageButton03"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignRight="@+id/button1"
+        android:layout_alignTop="@+id/ImageButton02"
+        android:layout_marginRight="41dp"
+        android:background="@drawable/green"
+        android:onClick="color_green" />
+
+    <ImageButton
+        android:id="@+id/imageButton1"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignRight="@+id/seekBar1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="97dp"
+        android:background="@drawable/blue"
+        android:onClick="color_blue" />
+
+    <ImageButton
+        android:id="@+id/ImageButton02"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_alignTop="@+id/imageButton1"
+        android:layout_marginRight="43dp"
+        android:layout_toLeftOf="@+id/imageButton1"
+        android:background="@drawable/yellow"
+        android:onClick="color_yellow" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/ImageButton01"
+        android:layout_alignLeft="@+id/ImageButton01"
+        android:layout_marginBottom="21dp"
+        android:text="@string/label_color"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/TextView01"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/seekBar1"
+        android:layout_alignLeft="@+id/ImageButton01"
+        android:layout_marginBottom="41dp"
+        android:text="@string/label_brushsize"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <SeekBar
+        android:id="@+id/seekBar1"
         android:layout_width="match_parent"
-        android:layout_height="28dp"
-        android:layout_weight="0.04" >
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/drawView1"
+        android:layout_marginBottom="52dp"
+        android:layout_toRightOf="@+id/drawView1"
+        android:max = "20"
+        android:progress="1" />
 
-        <Button
-            android:id="@+id/button1"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:onClick="onButtonClick"
-            android:text="Clear" />
-
-        <ImageButton
-            android:id="@+id/ImageButton03"
-            android:layout_width="73dp"
-            android:layout_height="67dp"
-            android:layout_weight="2.5"
-            android:onClick="color_red"
-            android:src="@drawable/red" />
-
-        <ImageButton 
-            android:id="@+id/ImageButton02"
-            android:layout_width="73dp"
-            android:layout_height="67dp"
-            android:layout_weight="2.5"
-            android:onClick="color_blue"
-            android:src="@drawable/blue" />
-
-        <ImageButton
-            android:id="@+id/ImageButton01"
-            android:layout_width="73dp"
-            android:layout_height="67dp"
-            android:layout_weight="2.5"
-            android:onClick="color_green"
-            android:src="@drawable/green" />
-
-        <ImageButton
-            android:id="@+id/ImageButton00"
-            android:layout_width="73dp"
-            android:layout_height="67dp"
-            android:layout_weight="2.5"
-            android:onClick="color_yellow"
-            android:src="@drawable/yellow" />
-
-        <SeekBar
-            android:id="@+id/seekbar1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="10"
-            android:progress="1" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</RelativeLayout>

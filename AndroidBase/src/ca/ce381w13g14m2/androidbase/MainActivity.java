@@ -17,7 +17,7 @@ public class MainActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);   
 
-		seekbar = (SeekBar) findViewById(R.id.seekbar1);
+		seekbar = (SeekBar) findViewById(R.id.seekBar1);
 		seekbar.setOnSeekBarChangeListener( new OnSeekBarChangeListener(){
 	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
         brushWidth = progress;
@@ -28,7 +28,6 @@ public class MainActivity extends Activity {
 	public void onStopTrackingTouch(SeekBar arg0) {}
 }); 
 	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -36,16 +35,25 @@ public class MainActivity extends Activity {
 		return true;
 	}
 
-	public void color_yellow(View view) {DrawView.color = Color.YELLOW;}
-	public void color_blue(View view) {DrawView.color = Color.BLUE;}
-	public void color_green(View view) {DrawView.color = Color.GREEN;}
-	public void color_red(View view) {DrawView.color = Color.RED;}
-
-	// Called when the user clicks the Clear button 
-	public void onButtonClick(View view) {
-	    //Intent intent = new Intent(this, Draw.class);
-	    //startActivity(intent);
+	
+	public void color_blue(View view) {
+		DrawView.color = Color.BLUE;
+	}
+	
+	public void color_yellow(View view) {
+		DrawView.color = Color.YELLOW;
+	}
+	
+	public void color_green(View view) {
+		DrawView.color = Color.GREEN;
+	}
+	
+	public void color_red(View view) {
+		DrawView.color = Color.RED;
+	}
+	
+	public void onClear(View view)
+	{
 		DrawView.clear = true;
 	}
-
 }

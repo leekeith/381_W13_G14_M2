@@ -8,5 +8,9 @@
     <string name="menu_settings">Settings</string>
     <string name="title_activity_gfxsurface">Draw Screen</string>
     <string name="title_activity_draw">Draw</string>
+    <string name="button_clear">Clear</string>
+    <string name="label_colors"></string>
+    <string name="label_color">Select Colour:</string>
+    <string name="label_brushsize">Choose Brush Size</string>
 
 </resources>

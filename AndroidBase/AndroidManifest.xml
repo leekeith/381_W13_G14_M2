@@ -15,7 +15,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="ca.ce381w13g14m2.androidbase.MainActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name" 
+            android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
