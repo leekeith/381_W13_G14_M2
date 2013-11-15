@@ -2,7 +2,6 @@ package ca.ce381w13g14m2.androidbase;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.ViewGroup;
 
 public class Draw extends Activity {
     DrawView drawView;

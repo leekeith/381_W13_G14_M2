@@ -17,11 +17,12 @@ import android.view.View.OnTouchListener;
 public class DrawView extends View implements OnTouchListener {
 private static final String TAG = "DrawView";
 public static boolean clear = false;
+public static int color = Color.BLACK;
 
     List<Point> points = new ArrayList<Point>();
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     Path path = new Path();
-
+	
     public DrawView(Context context, AttributeSet attribute_set) {
         super(context, attribute_set );
         setFocusable(true);
@@ -29,23 +30,17 @@ public static boolean clear = false;
         
         this.setOnTouchListener(this);
         paint.setStyle(Paint.Style.STROKE);
-        paint.setColor(Color.RED);
+        paint.setColor(color);
         paint.setAntiAlias(true);
         paint.setStrokeWidth(MainActivity.brushWidth);
     }
 
     @Override
-/*    public void onDraw(Canvas canvas) {
-        for (Point point : points) {
-            canvas.drawCircle(point.x, point.y, 5, paint);
-            // Log.d(TAG, "Painting: "+point);
-        }
-    }*/
-    
     public void onDraw(Canvas canvas) {
  
         boolean first = true;
         paint.setStrokeWidth(MainActivity.brushWidth);
+        paint.setColor(color);
         for(Point point : points){
             if(first){
                 first = false;
@@ -56,7 +51,7 @@ public static boolean clear = false;
             }
         }
         canvas.drawPath(path, paint);
-        points.clear(); //THIS ENDS THE LINE?
+       // points.clear(); //THIS ENDS THE LINE?
     }
 
     public boolean onTouch(View view, MotionEvent event) {

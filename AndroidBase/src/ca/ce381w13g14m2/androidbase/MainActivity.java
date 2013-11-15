@@ -1,6 +1,7 @@
 package ca.ce381w13g14m2.androidbase;
 
 import android.app.Activity;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -34,6 +35,11 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
+
+	public void color_yellow(View view) {DrawView.color = Color.YELLOW;}
+	public void color_blue(View view) {DrawView.color = Color.BLUE;}
+	public void color_green(View view) {DrawView.color = Color.GREEN;}
+	public void color_red(View view) {DrawView.color = Color.RED;}
 
 	// Called when the user clicks the Clear button 
 	public void onButtonClick(View view) {
