@@ -86,23 +86,38 @@ int main(int argc, char** argv)
 	instr_t instr;
 	range_t* range;
 	alt_alarm* alarm;
+	unsigned int prev_pix;
 
 #ifdef NO_COMMS
+	srand(alt_nticks());
 	//Prebuilt instructions to test pixel buffer operation
 	instr_t instrs[120];
 	int instr_index=0;
 	instrs[0].cmd=FILL_SCR;
 	instrs[0].pixel=0;
 	instrs[0].color=mkColor(127,0,255);
-	for(i=1;i<118;i++)
+	instrs[1].cmd=LINE_START;
+	instrs[1].pixel=0;
+	instrs[1].color=mkColor(55,122,255);
+	for(i=2;i<59;i++)
 	{
-		instrs[i].cmd=FILL_PIXEL;
-		instrs[i].pixel=i+STD_W*5;
+		instrs[i].cmd=LINE_PT;
+		instrs[i].pixel=rand()%(STD_W*STD_H);
 		instrs[i].color=mkColor(55,122,255);
 		instrs[i].width=3;
 	}
+	instrs[60].cmd=LINE_START;
+	instrs[60].pixel=rand()%(STD_W*STD_H);
+	instrs[60].color=mkColor(255,122,55);
+	for(i=61;i<118;i++)
+	{
+		instrs[i].cmd=LINE_PT;
+		instrs[i].pixel=rand()%(STD_W*STD_H);
+		instrs[i].color=mkColor(255,122,55);
+		instrs[i].width=3;
+	}
 	instrs[118].cmd=SAVE;
-	instrs[119].cmd=QUIT;
+	instrs[119].cmd=NONE;
 
 #endif
 
@@ -156,15 +171,7 @@ int main(int argc, char** argv)
 			//buf_swap=1;
 		}
 #endif
-		//Check if grid status has changed
-		grid_on=GET_SW&1;
-		if(grid_on!=grid_was_on)
-		{
-			//redraw image to remove grid
-			//buf_swap=1;
-			grid_was_on=grid_on;
-			redraw=1;
-		}
+
 
 		//Instruction execution
 		if(instr_isnew)
@@ -217,6 +224,19 @@ int main(int argc, char** argv)
 				saveBmp(image);
 				instr.cmd=NONE;
 				break;
+			case LINE_START:
+				fillPixel(image,instr.pixel,instr.color);
+				setRange(range,instr.pixel);
+				prev_pix=instr.pixel;
+				redraw=1;
+				instr.cmd=NONE;
+				break;
+			case LINE_PT:
+				fillLine(image, prev_pix, instr.pixel, instr.color, range);
+				prev_pix=instr.pixel;
+				redraw=1;
+				instr.cmd=NONE;
+				break;
 			default:
 				break;
 			}
@@ -224,7 +244,16 @@ int main(int argc, char** argv)
 			instr_send(&instr);
 		}
 
-
+		//Check if grid status has changed
+		grid_on=GET_SW&1;
+		if(grid_on!=grid_was_on)
+		{
+			//redraw image to remove grid
+			//buf_swap=1;
+			grid_was_on=grid_on;
+			redraw=1;
+			range->sync=0;
+		}
 
 		if(buf_swap)
 		{

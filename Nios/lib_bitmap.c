@@ -10,6 +10,9 @@
 #include"lib_bitmap.h"
 #include<altera_up_sd_card_avalon_interface.h>
 
+#define ABS(x)	((x >= 0) ? (x) : (-(x)))
+
+
 void color16to24(char* c24,short c16)
 {
 	short temp;
@@ -230,3 +233,91 @@ void fillColor(unsigned short* image, int pix_offset, short color, range_t* r)
 		}
 	}
 }
+
+
+//Adapted for use from altera_up_avalon_pixel_buffer_dma.c; Thanks, Altera!
+void fillLine(unsigned short* image, int last_offset, int next_offset, short color, range_t* r)
+{
+	if(last_offset<r->start)
+		r->start=last_offset;
+	if(next_offset<r->start)
+		r->start=next_offset;
+	if(last_offset>r->stop)
+		r->stop=last_offset;
+	if(next_offset>r->stop)
+		r->stop=next_offset;
+	r->sync=1;
+
+	register int x_0,y_0,x_1,y_1;
+	register char steep;
+	register int deltax,deltay,error,ystep,x,y;
+
+	y_0=last_offset/STD_W;
+	x_0=last_offset%STD_W;
+
+	y_1=next_offset/STD_W;
+	x_1=next_offset%STD_W;
+
+	steep=(ABS(y_1-y_0))>ABS(x_1-x_0)? 1:0;
+
+	/* Preprocessing inputs */
+		if (steep > 0) {
+			// Swap x_0 and y_0
+			error = x_0;
+			x_0 = y_0;
+			y_0 = error;
+			// Swap x_1 and y_1;
+			error = x_1;
+			x_1 = y_1;
+			y_1 = error;
+		}
+		if (x_0 > x_1) {
+			// Swap x_0 and x_1
+			error = x_0;
+			x_0 = x_1;
+			x_1 = error;
+			// Swap y_0 and y_1
+			error = y_0;
+			y_0 = y_1;
+			y_1 = error;
+		}
+
+		/* Setup local variables */
+		deltax = x_1 - x_0;
+		deltay = ABS(y_1 - y_0);
+		error = -(deltax / 2);
+		y = y_0;
+		if (y_0 < y_1)
+			ystep = 1;
+		else
+			ystep = -1;
+
+		/* Draw a line - either go along the x axis (steep = 0) or along the y axis (steep = 1). The code is replicated to
+		 * compile well on low optimization levels. */
+		if (steep == 1)
+		{
+			for (x=x_0; x <= x_1; x++) {
+				fillPixel(image, y*STD_W+x,color);
+				error = error + deltay;
+				if (error > 0) {
+					y = y + ystep;
+					error = error - deltax;
+				}
+			}
+		}
+		else
+		{
+			for (x=x_0; x <= x_1; x++) {
+				fillPixel(image,x*STD_W+y,color);
+				error = error + deltay;
+				if (error > 0) {
+					y = y + ystep;
+					error = error - deltax;
+				}
+			}
+		}
+	}
+
+
+
+

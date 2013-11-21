@@ -44,4 +44,5 @@ int bitmapToSDcard(bitmap_t* bmp);
 
 void fillPixel(unsigned short* image, int pix_offset, short color);
 void fillColor(unsigned short* image, int pix_offset, short color, range_t* r);
+void fillLine(unsigned short* image, int last_offset, int next_offset, short color, range_t* r);
 #endif /* LIB_BITMAP_H_ */

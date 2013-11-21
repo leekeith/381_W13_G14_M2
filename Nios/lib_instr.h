@@ -18,7 +18,9 @@ typedef enum e_instr_type{
 	FILL_COLOR='C',
 	QUIT='X',
 	NONE='0',
-	CONFIRM='N'
+	CONFIRM='N',
+	LINE_START='T',
+	LINE_PT='L'
 }instr_type;
 
 typedef struct e_instr
