@@ -3,7 +3,9 @@
     package="ca.ce381w13g14m2.androidbase"
     android:versionCode="1"
     android:versionName="1.0" >
-
+	
+	<uses-permission android:name="android.permission.INTERNET" />
+   
     <uses-sdk
         android:minSdkVersion="8"
         android:targetSdkVersion="18" />
@@ -12,7 +14,7 @@
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme" android:name="TheApplication">
         <activity
             android:name="ca.ce381w13g14m2.androidbase.MainActivity"
             android:label="@string/app_name" 
@@ -39,6 +41,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="ca.ce381w13g14m2.androidbase.MainActivity" />
         </activity>
+        <activity
+        android:name="ca.ce381w13g14m2.androidbase.ConnectScreen"
+        android:label="@string/action_settings"
+        android:parentActivityName="ca.ce381w13g14m2.androidbase.MainActivity" >
+        <!-- Parent activity meta-data to support 4.0 and lower -->
+        <meta-data
+            android:name="android.support.PARENT_ACTIVITY"
+            android:value="ca.ce381w13g14m2.androidbase.MainActivity" />
+   		 </activity>
     </application>
 
 </manifest>

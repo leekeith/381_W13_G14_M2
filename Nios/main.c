@@ -99,11 +99,11 @@ int main(int argc, char** argv)
 		instrs[i].cmd=FILL_PIXEL;
 		instrs[i].pixel=i+STD_W*5;
 		instrs[i].color=mkColor(55,122,255);
+		instrs[i].width=3;
 	}
 	instrs[118].cmd=SAVE;
-	instrs[119].cmd=FILL_COLOR;
-	instrs[119].pixel=0;
-	instrs[119].color=0;
+	instrs[119].cmd=QUIT;
+
 #endif
 
 	//Initializations
@@ -125,7 +125,7 @@ int main(int argc, char** argv)
 	instr.cmd=NONE;
 	instr.color=0;
 	instr.pixel=0;
-	for(i=0;i<121;i++)
+	for(i=0;i<12;i++)
 		instr.message[i]=0;
 
 	range->start=STD_W*STD_H;

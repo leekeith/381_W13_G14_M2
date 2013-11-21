@@ -168,19 +168,38 @@ int bitmapToSDcard(bitmap_t* bmp)
 	//sdcard_writefile_sz((char*)data,handle,bmp->offset);
 	for(i=0;i<bmp->offset;i++)
 	{
-		while(!alt_up_sd_card_write(handle, data[i]));
+		alt_up_sd_card_write(handle, data[i]);
 	}
 
 	for(i=0;i<bmp->dib.raw_size;i++)
 	{
-		while(!alt_up_sd_card_write(handle, bmp->image[i]));
+		alt_up_sd_card_write(handle, bmp->image[i]);
 		//if(b==0)printf("%d\n",i);
 	}
 
 	//sdcard_writefile_sz((char*)bmp->image,handle,bmp->dib.raw_size);
 
 	//alt_up_sd_card_write(handle,-1);
+
+
+
 	sdcard_fclose(handle);
+
+	timeout=0;
+		do{
+		handle=sdcard_fopen((char*)bmp->filename, create);
+		timeout++;
+		create=0;
+		}while(handle<0 && timeout<50);
+
+		if(handle<0)
+			return handle;
+		//char b;
+		//sdcard_writefile_sz((char*)data,handle,bmp->offset);
+		for(i=0;i<bmp->offset;i++)
+		{
+			alt_up_sd_card_write(handle, data[i]);
+		}
 
 
 

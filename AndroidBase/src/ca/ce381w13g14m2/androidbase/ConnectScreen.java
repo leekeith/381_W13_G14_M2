@@ -13,6 +13,7 @@ import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 //import ca.ce381w13g14m2.androidbase.Info;
 
 public class ConnectScreen extends Activity {
+	TheApplication app;
 	//Info data = new Info();
 	@SuppressLint("NewApi")
 	@Override
@@ -40,6 +42,8 @@ public class ConnectScreen extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_connect_screen);		
 		
+		app=(TheApplication)getApplication();
+		
 		EditText et = (EditText) findViewById(R.id.RecvdMessage);
 		et.setKeyListener(null);
 		et = (EditText) findViewById(R.id.error_message_box);
@@ -49,8 +53,27 @@ public class ConnectScreen extends Activity {
 		// input queue every 500 ms
 		
 		TCPReadTimerTask tcp_task = new TCPReadTimerTask();
-		Timer tcp_timer = new Timer();
-		tcp_timer.schedule(tcp_task,10000, 500);
+		app.tcp_timer.schedule(tcp_task,3000, 500);
+		
+		
+		}
+	@Override
+	public void onResume()
+	{
+		super.onResume();
+		EditText et;
+		et=(EditText)findViewById(R.id.ip1);
+		et.setText(app.getIpByte(0).toString());
+		et=(EditText)findViewById(R.id.ip2);
+		et.setText(app.getIpByte(1).toString());
+		et=(EditText)findViewById(R.id.ip3);
+		et.setText(app.getIpByte(2).toString());
+		et=(EditText)findViewById(R.id.ip4);
+		et.setText(app.getIpByte(3).toString());
+		et=(EditText)findViewById(R.id.port);
+		et.setText(Integer.toString(app.getPort()));
+		app=(TheApplication)getApplication();
+		Log.w("ConnectScreen","IP: "+app.getAddr());
 	}
 
 	@Override
@@ -58,11 +81,16 @@ public class ConnectScreen extends Activity {
 		getMenuInflater().inflate(R.menu.connect_screen, menu);
 		return true;
 	}
-
+	
+	@Override
+	public void onPause()
+	{
+		super.onPause();
+		closeSocket(null);
+	}
 	// Route called when the user presses "connect"
 	
 	public void openSocket(View view) {
-		MyApplication app = (MyApplication) getApplication();
 		TextView msgbox = (TextView) findViewById(R.id.error_message_box);
 
 		// Make sure the socket is not already opened 
@@ -75,14 +103,24 @@ public class ConnectScreen extends Activity {
 		// open the socket.  SocketConnect is a new subclass
 	    // (defined below).  This creates an instance of the subclass
 		// and executes the code in it.
-		
+		EditText text_ip;
+		text_ip = (EditText) findViewById(R.id.ip1);
+		app.setIpByte(0,text_ip.getText().toString());
+		text_ip = (EditText) findViewById(R.id.ip2);
+		app.setIpByte(1,text_ip.getText().toString());
+		text_ip = (EditText) findViewById(R.id.ip3);
+		app.setIpByte(2,text_ip.getText().toString());
+		text_ip = (EditText) findViewById(R.id.ip4);
+		app.setIpByte(3,text_ip.getText().toString());
+		text_ip=(EditText)findViewById(R.id.port);
+		app.setPort(Integer.parseInt(text_ip.getText().toString()));
+		Log.w("ConnectScreen","IP: "+app.getAddr());
 		new SocketConnect().execute((Void) null);
 	}
 
 	//  Called when the user wants to send a message
 	
 	public void sendMessage(View view) {
-		MyApplication app = (MyApplication) getApplication();
 		
 		// Get the message from the box
 		
@@ -100,7 +138,7 @@ public class ConnectScreen extends Activity {
 		
 		OutputStream out;
 		try {
-			out = app.sock.getOutputStream();
+			out = app.getSock().getOutputStream();
 			try {
 				out.write(buf, 0, msg.length() + 1);
 			} catch (IOException e) {
@@ -114,8 +152,7 @@ public class ConnectScreen extends Activity {
 	// Called when the user closes a socket
 	
 	public void closeSocket(View view) {
-		MyApplication app = (MyApplication) getApplication();
-		Socket s = app.sock;
+		Socket s = app.getSock();
 		try {
 			s.getOutputStream().close();
 			s.close();
@@ -129,6 +166,7 @@ public class ConnectScreen extends Activity {
 	// Construct an IP address from the four boxes
 	
 	public String getConnectToIP() {
+		TheApplication app=(TheApplication)getApplication();
 		String addr = "";
 		EditText text_ip;
 		text_ip = (EditText) findViewById(R.id.ip1);
@@ -167,6 +205,7 @@ public class ConnectScreen extends Activity {
 		
 		protected Socket doInBackground(Void... voids) {
 			Socket s = null;
+			
 			String ip = getConnectToIP();
 			Integer port = getConnectToPort();
 
@@ -185,9 +224,8 @@ public class ConnectScreen extends Activity {
 		// the socket in this app's persistent storage
 		
 		protected void onPostExecute(Socket s) {
-			MyApplication myApp = (MyApplication) ConnectScreen.this
-					.getApplication();
-			myApp.sock = s;
+			app.sock = s;
+			
 		}
 	}
 
@@ -196,12 +234,11 @@ public class ConnectScreen extends Activity {
 	
 	public class TCPReadTimerTask extends TimerTask {
 		public void run() {
-			MyApplication app = (MyApplication) getApplication();
-			if (app.sock != null && app.sock.isConnected()
+			if (app.getSock() != null && app.getSock().isConnected()
 					&& !app.sock.isClosed()) {
 				
 				try {
-					InputStream in = app.sock.getInputStream();
+					InputStream in = app.getSock().getInputStream();
 
 					// See if any bytes are available from the Middleman
 					
@@ -241,9 +278,7 @@ public class ConnectScreen extends Activity {
 	public void send(View view) {
 		// TODO Auto-generated method stub
 	
-		MyApplication app = (MyApplication) getApplication();
-		
-		String msg = data.message;
+		String msg = "asdf";
 		
 		byte buf[] = new byte[msg.length() + 1];
 		buf[0] = (byte) msg.length(); 
@@ -253,7 +288,7 @@ public class ConnectScreen extends Activity {
 		
 		OutputStream out;
 		try {
-			out = app.sock.getOutputStream();
+			out = app.getSock().getOutputStream();
 			try {
 				out.write(buf, 0, msg.length() + 1);
 			} catch (IOException e) {
