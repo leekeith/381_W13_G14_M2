@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -18,6 +19,7 @@ import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,9 +48,7 @@ public class ConnectScreen extends Activity {
 		
 		EditText et = (EditText) findViewById(R.id.RecvdMessage);
 		et.setKeyListener(null);
-		et = (EditText) findViewById(R.id.error_message_box);
-		et.setKeyListener(null);
-	
+		
 		// Set up a timer task.  We will use the timer to check the
 		// input queue every 500 ms
 		
@@ -74,6 +74,12 @@ public class ConnectScreen extends Activity {
 		et.setText(Integer.toString(app.getPort()));
 		app=(TheApplication)getApplication();
 		Log.w("ConnectScreen","IP: "+app.getAddr());
+		CheckBox cb=(CheckBox)findViewById(R.id.check_box2);
+		if(app.getSock()==null)
+			cb.setChecked(false);
+		else if(!app.getSock().isClosed() && app.getSock().isConnected())
+			cb.setChecked(true);
+		else cb.setChecked(false);
 	}
 
 	@Override
@@ -86,19 +92,14 @@ public class ConnectScreen extends Activity {
 	public void onPause()
 	{
 		super.onPause();
+		if(app.getSock()!=null)
 		closeSocket(null);
 	}
 	// Route called when the user presses "connect"
 	
 	public void openSocket(View view) {
-		TextView msgbox = (TextView) findViewById(R.id.error_message_box);
-
-		// Make sure the socket is not already opened 
-		
-		if (app.sock != null && app.sock.isConnected() && !app.sock.isClosed()) {
-			msgbox.setText("Socket already open");
-			return;
-		}
+		Button button =(Button)findViewById(R.id.button_connect);
+		button.setEnabled(false);
 		
 		// open the socket.  SocketConnect is a new subclass
 	    // (defined below).  This creates an instance of the subclass
@@ -202,7 +203,7 @@ public class ConnectScreen extends Activity {
 
 		// The main parcel of work for this thread.  Opens a socket
 		// to connect to the specified IP.
-		
+		@Override
 		protected Socket doInBackground(Void... voids) {
 			Socket s = null;
 			
@@ -222,9 +223,17 @@ public class ConnectScreen extends Activity {
 		// After executing the doInBackground method, this is 
 		// automatically called, in the UI (main) thread to store
 		// the socket in this app's persistent storage
-		
+		@Override
 		protected void onPostExecute(Socket s) {
-			app.sock = s;
+			app.setSock(s);
+			findViewById(R.id.button_connect).setEnabled(true);
+			CheckBox cb=(CheckBox)findViewById(R.id.check_box2);
+			if(app.getSock()==null)
+				cb.setChecked(false);
+			else if(app.getSock().isConnected() && !app.getSock().isClosed())
+				cb.setChecked(true);
+			else
+				cb.setChecked(false);
 			
 		}
 	}

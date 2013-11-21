@@ -73,6 +73,7 @@
     </LinearLayout>
 
     <Button
+        android:id="@+id/button_connect"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:onClick="openSocket"
@@ -118,19 +119,6 @@
         android:ems="10"
         android:inputType="number" />
 
-    <TextView
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:gravity="left"
-        android:text="Errors:" />
-
-    <EditText
-        android:id="@+id/error_message_box"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="number" />
-
     <Button
         android:id="@+id/printscreen"
         android:layout_width="match_parent"
@@ -138,10 +126,10 @@
         android:onClick="send"
         android:text="Send the Picture" />
 
-    <Button
-        android:id="@+id/back"
-        android:layout_width="match_parent"
+    <CheckBox
+        android:id="@+id/check_box2"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Back" />
+        android:text="Connected" />
 
 </LinearLayout>

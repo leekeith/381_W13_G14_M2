@@ -50,7 +50,11 @@ public class MainActivity extends Activity {
 	public void onResume()
 	{
 		super.onResume();
-		new SocketConnect().execute(app);
+		if(app.getSock()!=null)
+		{
+			findViewById(R.id.check_box2).setEnabled(false);
+			new SocketConnect().execute(app);
+		}
 		Log.w("MainActivity", "app.ip="+app.getAddr()+"; app.port="+app.getPort().toString());
 		
 		
@@ -69,7 +73,7 @@ public class MainActivity extends Activity {
 		switch (item.getItemId()) {
 	        case R.id.action_connect:
 	        	Intent i=new Intent(this,ConnectScreen.class);
-	              startActivity(i);CheckBox cb=(CheckBox)findViewById(R.id.checkBox1);
+	              startActivity(i);
 	              return true;
 	        case R.id.action_settings:
 	            return true;
@@ -82,7 +86,8 @@ public class MainActivity extends Activity {
 	public void onPause()
 	{
 		super.onPause();
-		closeSocket(null);
+		if(app.getSock()!=null)
+			closeSocket(null);
 	}
 	
 
@@ -134,7 +139,8 @@ public class MainActivity extends Activity {
 		}
 		protected void onPostExecute(Socket s){
 			app.setSock(s);
-			CheckBox cb=(CheckBox)findViewById(R.id.checkBox1);
+			CheckBox cb=(CheckBox)findViewById(R.id.check_box2);
+			cb.setEnabled(true);
 			if(s==null)
 			{
 				cb.setChecked(false);

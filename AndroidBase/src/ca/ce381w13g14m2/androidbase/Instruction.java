@@ -4,18 +4,18 @@ import android.graphics.Color;
 
 public class Instruction {
 	
-	private char cmd;
+	private instr_type cmd;
 	private int pixel;
 	private short color;
 	
-	public Instruction(char cmd, int pixel, short color)
+	public Instruction(instr_type cmd, int pixel, short color)
 	{
 		this.cmd=cmd;
 		this.pixel=pixel;
 		this.color=color;
 	}
 	
-	public void setCmd(char cmd)
+	public void setCmd(instr_type cmd)
 	{
 		this.cmd=cmd;
 	}
@@ -34,7 +34,7 @@ public class Instruction {
 		this.color=(short)((r&0x0000f800)+(g&0x0000fc00>>5)+(b&0x0000f800>>11));
 	}
 	
-	public char getCmd()
+	public instr_type getCmd()
 	{
 		return this.cmd;
 	}
@@ -52,7 +52,7 @@ public class Instruction {
 	{
 		byte[] seq=new byte[7+msg.length()];
 		
-		seq[0]=(byte)this.cmd;
+		seq[0]=(byte)this.cmd.getValue();
 		
 		seq[1]=(byte)((this.pixel&0xff000000)>>24);
 		seq[2]=(byte)((this.pixel&0x00ff0000)>>16);
@@ -74,7 +74,7 @@ public class Instruction {
 	{
 		String msg=new String();
 		
-		this.cmd=seq[0];
+		this.cmd=instr_type.getType(seq[0]);
 		
 		this.pixel=(int)(seq[1]+(int)(seq[2]<<8)+(int)(seq[3]<<16)+(int)(seq[4]<<24));
 		
