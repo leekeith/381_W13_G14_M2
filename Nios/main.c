@@ -18,7 +18,7 @@
 
 //Precomple definitions
 #define NO_COMMS
-#define GRID_COLOR		0xFFFF
+#define GRID_COLOR		0x9edd
 
 //Globals
 unsigned short* image;
@@ -95,11 +95,11 @@ int main(int argc, char** argv)
 	int instr_index=0;
 	instrs[0].cmd=FILL_SCR;
 	instrs[0].pixel=0;
-	instrs[0].color=mkColor(127,0,255);
+	instrs[0].color=mkColor(255,255,255);
 	instrs[1].cmd=LINE_START;
 	instrs[1].pixel=0;
 	instrs[1].color=mkColor(55,122,255);
-	for(i=2;i<59;i++)
+	for(i=2;i<60;i++)
 	{
 		instrs[i].cmd=LINE_PT;
 		instrs[i].pixel=rand()%(STD_W*STD_H);
@@ -238,6 +238,8 @@ int main(int argc, char** argv)
 				instr.cmd=NONE;
 				break;
 			default:
+				redraw=0;
+				range->sync=0;
 				break;
 			}
 			strcpy(instr.message,"confirm");
@@ -287,7 +289,7 @@ int main(int argc, char** argv)
 				redraw=0;
 			}
 			buf_swap=0;
-			redraw=1;
+
 		}
 	}
 	printf("Process terminated\n");

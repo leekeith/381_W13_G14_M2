@@ -16,8 +16,11 @@ import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
+import android.view.View.OnTouchListener;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -29,6 +32,8 @@ public class ConnectScreen extends Activity {
 	TheApplication app;
 	//Info data = new Info();
 	@SuppressLint("NewApi")
+	
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		
@@ -48,6 +53,57 @@ public class ConnectScreen extends Activity {
 		
 		EditText et = (EditText) findViewById(R.id.RecvdMessage);
 		et.setKeyListener(null);
+		
+		OnTouchListener ipBoxListener=new OnTouchListener(){
+				@Override
+				public boolean onTouch(View view, MotionEvent event)
+				{
+					EditText ipBox=(EditText)view;
+					ipBox.setText("");
+					return false;
+				}
+			};
+		OnFocusChangeListener ipBoxNav=new OnFocusChangeListener(){
+
+			@Override
+			public void onFocusChange(View view, boolean hasFocus) {
+				EditText et=(EditText)view;
+				if(!hasFocus && et.getText().toString().length()==0)
+				{
+					switch(et.getId())
+					{
+					case R.id.ip1:
+						et.setText(app.getIpByte(0));
+						break;
+					case R.id.ip2:
+						et.setText(app.getIpByte(1));
+						break;
+					case R.id.ip3:
+						et.setText(app.getIpByte(2));
+						break;
+					case R.id.ip4:
+						et.setText(app.getIpByte(3));
+						break;
+					default:
+						break;	
+					}
+				}
+				
+			}
+		};
+			
+		
+		findViewById(R.id.ip1).setOnTouchListener(ipBoxListener);
+		findViewById(R.id.ip2).setOnTouchListener(ipBoxListener);
+		findViewById(R.id.ip3).setOnTouchListener(ipBoxListener);
+		findViewById(R.id.ip4).setOnTouchListener(ipBoxListener);
+		
+		findViewById(R.id.ip1).setOnFocusChangeListener(ipBoxNav);
+		findViewById(R.id.ip2).setOnFocusChangeListener(ipBoxNav);
+		findViewById(R.id.ip3).setOnFocusChangeListener(ipBoxNav);
+		findViewById(R.id.ip4).setOnFocusChangeListener(ipBoxNav);
+		
+		
 		
 		// Set up a timer task.  We will use the timer to check the
 		// input queue every 500 ms
@@ -192,7 +248,8 @@ public class ConnectScreen extends Activity {
 
 		return port;
 	}
-
+	
+	
 
     // This is the Socket Connect asynchronous thread.  Opening a socket
 	// has to be done in an Asynchronous thread in Android.  Be sure you

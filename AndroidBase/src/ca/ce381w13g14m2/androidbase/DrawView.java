@@ -17,11 +17,14 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 public class DrawView extends View implements OnTouchListener {
-private static final String TAG = "DrawView";
-private static String send_data = null;
-public static boolean clear = false;
-public static int color = Color.RED;
-public static int i = 0;
+	
+	private static final String TAG = "DrawView";
+	private static String send_data = null;
+	public  boolean clear = false;
+	public int color = Color.RED;
+	public int i = 0;
+	public instr_type cmd=instr_type.NONE;
+	private  boolean line_start=true;
 
     List<Point> points = new ArrayList<Point>();
     Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -34,7 +37,6 @@ public static int i = 0;
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
-        
         paint.setStyle(Paint.Style.STROKE);
         paint_border.setStyle(Paint.Style.STROKE);
 
@@ -74,7 +76,7 @@ public static int i = 0;
 
     public boolean onTouch(View view, MotionEvent event) {
         
-        
+    	
     	Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
@@ -82,12 +84,23 @@ public static int i = 0;
         invalidate();
         Log.d(TAG, "point: " + point);
         
-        i = ((int)point.y * 320/600) + (int)point.x;
+        i = ((int)point.y * 600/320) + ((int)point.x * 320/600);
+        if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
+        {
+        	cmd=instr_type.LINE_START;
+        }
+        else
+        {
+        	cmd=instr_type.LINE_PT;
+        }
         send_data = Integer.toString(i);
         Log.d(TAG, send_data);
         
         if (event.getAction() == android.view.MotionEvent.ACTION_UP)
+        {
         	points.clear();
+        	
+        }
     	
     	
     	

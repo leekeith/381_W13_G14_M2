@@ -1,9 +1,12 @@
 package ca.ce381w13g14m2.androidbase;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.Timer;
+import java.util.TimerTask;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,7 +16,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
@@ -24,14 +29,18 @@ public class MainActivity extends Activity {
     SeekBar seekbar;
     static int brushWidth;
     TheApplication app;
+    
+    
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);   
-
+		drawView=(DrawView)findViewById(R.id.drawView1);
 		seekbar = (SeekBar) findViewById(R.id.seekBar1);
+		
+		
 		seekbar.setOnSeekBarChangeListener( new OnSeekBarChangeListener(){
-	public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
+			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
 		        brushWidth = progress;
 			}
 			@Override
@@ -40,9 +49,19 @@ public class MainActivity extends Activity {
 			public void onStopTrackingTouch(SeekBar arg0) {}
 		}); 
 		app=(TheApplication)getApplication();
-
 		app.tcp_timer=new Timer();
 		
+		app.instr.setColor(Color.RED);
+		drawView.setOnTouchListener(new OnTouchListener(){
+			public boolean onTouch(View view, MotionEvent event)
+			{
+				drawView.onTouch(view, event);
+				app.instr.setColor(drawView.color);
+				app.instr.setCmd(drawView.cmd);
+				app.instr.setPixel(drawView.i);
+				return true;
+			}
+		});
 		
 	}
 	
@@ -50,6 +69,8 @@ public class MainActivity extends Activity {
 	public void onResume()
 	{
 		super.onResume();
+		TCPTimerTask task=new TCPTimerTask();
+		app.tcp_timer.schedule(task,3000,500);
 		if(app.getSock()!=null)
 		{
 			findViewById(R.id.check_box2).setEnabled(false);
@@ -92,24 +113,28 @@ public class MainActivity extends Activity {
 	
 
 	public void color_blue(View view) {
-		DrawView.color = Color.BLUE;
+		drawView.color = Color.BLUE;
+		app.instr.setColor(Color.BLUE);
 	}
 	
 	public void color_yellow(View view) {
-		DrawView.color = Color.YELLOW;
+		drawView.color = Color.YELLOW;
+		app.instr.setColor(Color.YELLOW);
 	}
 	
 	public void color_green(View view) {
-		DrawView.color = Color.GREEN;
+		drawView.color = Color.GREEN;
+		app.instr.setColor(Color.GREEN);
 	}
 	
 	public void color_red(View view) {
-		DrawView.color = Color.RED;
+		drawView.color = Color.RED;
+		app.instr.setColor(Color.RED);
 	}
 	
 	public void onClear(View view)
 	{
-		DrawView.clear = true;
+		drawView.clear = true;
 	}
 	
 	public void closeSocket(View view) {
@@ -148,11 +173,48 @@ public class MainActivity extends Activity {
 			else if(s.isClosed() || !s.isConnected())
 			{
 				cb.setChecked(false);
-				
 			}
 			else cb.setChecked(true);
 			
 		}
 	
+	}
+	
+	public class TCPTimerTask extends TimerTask{
+
+		@Override
+		public void run() {
+			InputStream in;
+			OutputStream out;
+			if (app.getSock() != null && app.getSock().isConnected()&& !app.sock.isClosed()) {
+				
+				try {
+					in = app.getSock().getInputStream();
+
+					// See if any bytes are available from the Middleman
+					
+					int bytes_avail = in.available();
+					if (bytes_avail > 0) {
+						//TODO get instruction from input stream
+					}
+				}catch (IOException e) {
+					e.printStackTrace();
+				}
+				
+				if(app.instr.getCmd()!=instr_type.NONE)
+				{
+					try{
+						out=app.getSock().getOutputStream();
+						out.write(app.instr.toTransmit(""));
+						app.instr.setCmd(instr_type.NONE);
+					}catch (IOException e) {
+						e.printStackTrace();
+					} 
+				}
+			}
+		}
+		
+		
+		
 	}
 }

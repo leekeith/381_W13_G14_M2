@@ -8,8 +8,18 @@ import android.app.Application;
 public class TheApplication extends Application{
 	protected Socket sock;
 	public Timer tcp_timer;
-	protected String ip[]={"192","168","0","102"};
-	protected Integer port=new Integer(50002);
+	protected String ip[];
+	protected Integer port;
+	public Instruction instr;
+	
+	public TheApplication()
+	{
+		sock=null;
+		tcp_timer=null;
+		ip=new String[]{"192","168","0","102"};
+		port=50002;
+		instr=new Instruction(instr_type.NONE,0,(short)0);
+	}
 	
 	public void setSock(Socket s)
 	{

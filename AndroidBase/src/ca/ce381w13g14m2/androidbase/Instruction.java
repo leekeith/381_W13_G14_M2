@@ -22,7 +22,10 @@ public class Instruction {
 	
 	public void setPixel(int pixel)
 	{
-		this.pixel=pixel;
+		if(pixel<=320*240 && pixel>0)
+			this.pixel=pixel;
+		else
+			this.pixel=0;
 	}
 	
 	public void setColor(int color)
@@ -31,7 +34,7 @@ public class Instruction {
 		r=Color.red(color);
 		g=Color.green(color);
 		b=Color.blue(color);
-		this.color=(short)((r&0x0000f800)+(g&0x0000fc00>>5)+(b&0x0000f800>>11));
+		this.color=(short)(((r&0xF8)<<8)+((g&0xFC)<<3)+((b&0xf8)>>3));
 	}
 	
 	public instr_type getCmd()

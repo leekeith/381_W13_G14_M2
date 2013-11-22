@@ -21,7 +21,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="192"
+            android:hint="255"
             android:inputType="number" />
 
         <EditText
@@ -29,7 +29,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="168"
+            android:hint="255"
             android:inputType="number" />
 
         <EditText
@@ -37,7 +37,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="1"
+            android:hint="255"
             android:inputType="number" />
 
         <EditText
@@ -45,7 +45,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="100"
+            android:hint="255"
             android:inputType="number" />
 
     </LinearLayout>
@@ -130,6 +130,7 @@
         android:id="@+id/check_box2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="false"
         android:text="Connected" />
 
 </LinearLayout>
