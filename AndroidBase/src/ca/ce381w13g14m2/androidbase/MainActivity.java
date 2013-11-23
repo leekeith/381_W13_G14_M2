@@ -22,7 +22,6 @@ import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	DrawView drawView;
@@ -135,6 +134,7 @@ public class MainActivity extends Activity {
 	public void onClear(View view)
 	{
 		drawView.clear = true;
+		drawView.postInvalidate();
 	}
 	
 	public void closeSocket(View view) {
