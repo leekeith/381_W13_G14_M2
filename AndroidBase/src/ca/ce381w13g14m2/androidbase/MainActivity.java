@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 	{
 		super.onResume();
 		TCPTimerTask task=new TCPTimerTask();
-		app.tcp_timer.schedule(task,3000,500);
+		app.tcp_timer.schedule(task,3000,50);
 		if(app.getSock()!=null)
 		{
 			findViewById(R.id.check_box2).setEnabled(false);
@@ -187,15 +187,18 @@ public class MainActivity extends Activity {
 			InputStream in;
 			OutputStream out;
 			if (app.getSock() != null && app.getSock().isConnected()&& !app.sock.isClosed()) {
-				
+				byte[] buf=new byte[7];
+				Instruction instr;
 				try {
 					in = app.getSock().getInputStream();
 
 					// See if any bytes are available from the Middleman
 					
 					int bytes_avail = in.available();
-					if (bytes_avail > 0) {
-						//TODO get instruction from input stream
+					if (bytes_avail >=7) {
+						in.read(buf);
+						instr=new Instruction(buf);
+						Log.i("TimerTask","Cmd:"+instr.getCmd().toString()+" P:"+Integer.toString(instr.getPixel())+" C:("+Color.red(instr.getColor())+","+Color.green(instr.getColor())+","+Color.blue(instr.getColor())+")");
 					}
 				}catch (IOException e) {
 					e.printStackTrace();

@@ -20,7 +20,8 @@ typedef enum e_instr_type{
 	NONE='0',
 	CONFIRM='N',
 	LINE_START='T',
-	LINE_PT='L'
+	LINE_PT='L',
+	LINE_END='E',
 }instr_type;
 
 typedef struct e_instr

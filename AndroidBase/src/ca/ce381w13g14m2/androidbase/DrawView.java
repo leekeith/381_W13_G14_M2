@@ -88,6 +88,14 @@ private  boolean line_start=true;
     	Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
+        if(point.x>600)
+        	point.x=600;
+        if(point.x<0)
+        	point.x=0;
+        if(point.y>440)
+        	point.y=440;
+        if(point.y<0)
+        	point.y=0;
         points.add(point);
         invalidate();
         Log.d(TAG, "point: " + point);
@@ -97,13 +105,17 @@ private  boolean line_start=true;
         {
         	cmd=instr_type.LINE_START;
         }
+        else if(event.getAction()==android.view.MotionEvent.ACTION_UP)
+        {
+        	cmd=instr_type.LINE_END;
+        }
         else
         {
           	cmd=instr_type.LINE_PT;
         }
-
+        
         send_data = Integer.toString(i);
-        Log.d(TAG, send_data);
+        Log.d("TimerTask", "Cmd:"+cmd+" X:"+Float.toString(point.x)+" Y:"+Float.toString(point.y));
         
         if (event.getAction() == android.view.MotionEvent.ACTION_UP)
         {

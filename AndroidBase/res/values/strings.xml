@@ -10,7 +10,7 @@
     <string name="title_activity_draw">Draw</string>
     <string name="button_clear">Clear</string>
     <string name="label_colors"></string>
-    <string name="label_color">Select Colour:</string>
+    <string name="label_color">Select Color:</string>
     <string name="label_brushsize">Choose Brush Size</string>
 	<string name="title_activity_connect_screen">ConnectScreen</string>
     <string name="title_activity_my_application">MyApplication</string>

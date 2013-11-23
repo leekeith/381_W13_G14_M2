@@ -74,7 +74,12 @@ void setRange(range_t* r, int p)
 		r->stop=p+1;
 	r->sync=1;
 }
-
+void resetRange(range_t* r)
+{
+	r->start=STD_W*STD_H;
+	r->stop=0;
+	r->sync=0;
+}
 int main(int argc, char** argv)
 {
 
@@ -88,8 +93,10 @@ int main(int argc, char** argv)
 	alt_alarm* alarm;
 	unsigned int prev_pix;
 
+	alarm=(alt_alarm*)malloc(sizeof(alt_alarm));
+
 #ifdef NO_COMMS
-	srand(alt_nticks());
+	srand((unsigned int)alarm);
 	//Prebuilt instructions to test pixel buffer operation
 	instr_t instrs[120];
 	int instr_index=0;
@@ -190,6 +197,7 @@ int main(int argc, char** argv)
 				//Fills entire screen with selected color
 				for(i=0;i<STD_W*STD_H;i++)
 					fillPixel(image,i,instr.color);
+				resetRange(range);
 				instr.cmd=NONE;
 				redraw=1;
 				break;
@@ -216,11 +224,13 @@ int main(int argc, char** argv)
 				break;
 			case QUIT:
 				//Exit loop
+				resetRange(range);
 				run=0;
 				instr.cmd=NONE;
 				break;
 			case SAVE:
 				//Save image as BITMAP24 to SD card
+				resetRange(range);
 				saveBmp(image);
 				instr.cmd=NONE;
 				break;
@@ -237,9 +247,17 @@ int main(int argc, char** argv)
 				redraw=1;
 				instr.cmd=NONE;
 				break;
+			case LINE_END:
+				fillLine(image,prev_pix,instr.pixel,instr.color,range);
+				resetRange(range);
+				redraw=1;
+				break;
+			case NONE:
+				redraw=1;
+				resetRange(range);
+				break;
 			default:
-				redraw=0;
-				range->sync=0;
+				resetRange(range);
 				break;
 			}
 			strcpy(instr.message,"confirm");
@@ -254,7 +272,8 @@ int main(int argc, char** argv)
 			//buf_swap=1;
 			grid_was_on=grid_on;
 			redraw=1;
-			range->sync=0;
+			resetRange(range);
+		}
 		}
 
 		if(buf_swap)
@@ -279,9 +298,7 @@ int main(int argc, char** argv)
 				if(range->sync)
 				{
 					imgToBbuffer((image+range->start),(back_buffer+range->start),(range->stop-range->start),1);
-					range->start=STD_W*STD_H;
-					range->stop=0;
-					range->sync=0;
+					resetRange(range);
 				}
 				//Redraw image to back buffer
 				else
@@ -291,9 +308,10 @@ int main(int argc, char** argv)
 			buf_swap=0;
 
 		}
-	}
 	printf("Process terminated\n");
 	free(screen);
 	free(image);
+	free(alarm);
 	return 0;
 }
+

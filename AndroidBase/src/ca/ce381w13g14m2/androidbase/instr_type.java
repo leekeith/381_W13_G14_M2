@@ -13,7 +13,8 @@ public enum instr_type {
 	NONE('0'),
 	CONFIRM('N'),
 	LINE_START('T'),
-	LINE_PT('L');
+	LINE_PT('L'),
+	LINE_END('E');
 	
 	private final char value;
 	instr_type(char value)
@@ -50,6 +51,8 @@ public enum instr_type {
 			return LINE_START;
 		case 'L':
 			return LINE_PT;
+		case 'E':
+			return LINE_END;
 		case '0':
 		default:
 			return NONE;

@@ -15,6 +15,11 @@ public class Instruction {
 		this.color=color;
 	}
 	
+	public Instruction(byte buffer[])
+	{
+		this.recieveInstruction(buffer);
+	}
+	
 	public void setCmd(instr_type cmd)
 	{
 		this.cmd=cmd;
@@ -73,18 +78,18 @@ public class Instruction {
 		else return new byte[0];
 	}
 	
-	public String recieveInstruction(char[] seq)
+	public String recieveInstruction(byte[] seq)
 	{
 		String msg=new String();
 		
-		this.cmd=instr_type.getType(seq[0]);
+		this.cmd=instr_type.getType((char)seq[0]);
 		
-		this.pixel=(int)(seq[1]+(int)(seq[2]<<8)+(int)(seq[3]<<16)+(int)(seq[4]<<24));
+		this.pixel=(int)(seq[4]+(int)(seq[3]<<8)+(int)(seq[2]<<16)+(int)(seq[1]<<24));
 		
 		this.color=(short)(seq[5]+(short)(seq[6]<<8));
 		
 		for(int i=7;i<seq.length;i++)
-			msg.toCharArray()[i-7]=seq[i];
+			msg.toCharArray()[i-7]=(char)seq[i];
 		
 		return msg;
 	}
