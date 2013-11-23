@@ -17,66 +17,74 @@ import android.view.View;
 import android.view.View.OnTouchListener;
 
 public class DrawView extends View implements OnTouchListener {
-	
-	private static final String TAG = "DrawView";
-	private static String send_data = null;
-	public  boolean clear = false;
-	public int color = Color.RED;
-	public int i = 0;
-	public instr_type cmd=instr_type.NONE;
-	private  boolean line_start=true;
+private static final String TAG = "DrawView";
+private static String send_data = null;
+public static boolean clear = false;
+public static int color = Color.RED;
+public static int i = 0;
+public instr_type cmd=instr_type.NONE;
+private  boolean line_start=true;
+
 
     List<Point> points = new ArrayList<Point>();
-    Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Paint paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
-    Path path = new Path();
-    //List<Path> paths = new ArrayList<Path>();
+    //Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    //Paint paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
+    //Path path = new Path();
+    //MyPath path = new MyPath();
+    List<MyPath> paths = new ArrayList<MyPath>();
 
     public DrawView(Context context, AttributeSet attribute_set) {
         super(context, attribute_set );
         setFocusable(true);
         setFocusableInTouchMode(true);
         this.setOnTouchListener(this);
-        paint.setStyle(Paint.Style.STROKE);
-        paint_border.setStyle(Paint.Style.STROKE);
-
-        paint.setAntiAlias(true);
-        paint_border.setAntiAlias(true);
+        
+        
         
         Timer my_timer = new Timer(); 
         MyTimerTask my_task = new MyTimerTask(); 
         my_timer.schedule(my_task, 1000, 100);
         
     }
+	//MyPath path = new MyPath();
 
 
     public void onDraw(Canvas canvas) {
-    	canvas.drawRect(0, 0, getWidth(), getHeight(), paint_border);
+    	MyPath path = new MyPath();
+    	path.paint.setStyle(Paint.Style.STROKE);
+        path.paint_border.setStyle(Paint.Style.STROKE);
+        path.paint.setAntiAlias(true);
+        path.paint_border.setAntiAlias(true);
+    	
+    	canvas.drawRect(0, 0, getWidth(), getHeight(), path.paint_border);
     	boolean first = true;
-        paint.setStrokeWidth(MainActivity.brushWidth);
+    	
+        path.paint.setStrokeWidth(MainActivity.brushWidth);
     	if(clear)
     	{
     		clear = false;
     		points.clear();
-    		path.reset();
+    		path.onePath.reset();
     	}
-    	paint.setColor(color);
+    	path.paint.setColor(color);
     	for(Point point : points){
             if(first){
                 first = false;
-                path.moveTo(point.x, point.y);
+                path.onePath.moveTo(point.x, point.y);
             }
             else{
-                path.lineTo(point.x, point.y);
+                path.onePath.lineTo(point.x, point.y);
             }
         }
-        canvas.drawPath(path, paint);
-        
+    	paths.add(path);
+    	
+    	for (int i = 0;i<paths.size();i++)
+    		canvas.drawPath(paths.get(i).onePath, paths.get(i).paint);
     }
 
     public boolean onTouch(View view, MotionEvent event) {
         
-    	
+        
     	Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
@@ -91,15 +99,15 @@ public class DrawView extends View implements OnTouchListener {
         }
         else
         {
-        	cmd=instr_type.LINE_PT;
+          	cmd=instr_type.LINE_PT;
         }
+
         send_data = Integer.toString(i);
         Log.d(TAG, send_data);
         
         if (event.getAction() == android.view.MotionEvent.ACTION_UP)
         {
         	points.clear();
-        	
         }
     	
     	
@@ -182,4 +190,24 @@ class Point {
     public String toString() {
         return x + ", " + y;
     }
+}
+
+class MyPath {
+	Path onePath = new Path();
+	int color;
+	Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+	Paint paint_border  = new Paint(Paint.ANTI_ALIAS_FLAG);
+/*	
+	public MyPath (){
+		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
+	}
+	
+	public MyPath(MyPath m)
+	{
+		this.color = m.color;
+		Path path = new Path();
+		this.path = m.path;
+	}
+*/
 }
