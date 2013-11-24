@@ -12,7 +12,9 @@
     <string name="label_colors"></string>
     <string name="label_color">Select Color:</string>
     <string name="label_brushsize">Choose Brush Size</string>
-	<string name="title_activity_connect_screen">ConnectScreen</string>
+    <string name="title_activity_connect_screen">ConnectScreen</string>
     <string name="title_activity_my_application">MyApplication</string>
+    <string name="title_activity_splash_screen">SplashScreen</string>
+    <string name="info">Copyright 2013 - DoIP Inc.</string>
 
 </resources>

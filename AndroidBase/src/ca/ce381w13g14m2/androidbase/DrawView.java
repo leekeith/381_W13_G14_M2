@@ -7,7 +7,6 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -65,16 +64,16 @@ private  boolean line_start=true;
                 path.onePath.lineTo(point.x, point.y);
             }
         }
+    	//paths.add(new MyPath(path));
     	paths.add(path);
-    	
     	for (int i = 0;i<paths.size();i++)
     		canvas.drawPath(paths.get(i).onePath, paths.get(i).paint);
     }
 
     public boolean onTouch(View view, MotionEvent event) {
-        
-        int maxX=view.getWidth();
-        int maxY=view.getHeight();
+    	int maxX=view.getWidth();
+    	int maxY=view.getHeight();
+
         
     	Point point = new Point();
         point.x = event.getX();
@@ -82,18 +81,20 @@ private  boolean line_start=true;
         
         if(point.x>maxX-1)
         	point.x=maxX-1;
+   
         if(point.x<0)
         	point.x=0;
+
         if(point.y>maxY-1)
         	point.y=maxY-1;
+
         if(point.y<0)
         	point.y=0;
         points.add(point);
         invalidate();
         Log.d(TAG, "point: " + point);
         
-        i = ((int)point.y * 240/maxY)*320 + ((int)point.x * 320/maxX);
-        if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
+        i = ((int)point.y * 240/maxY)*320 + ((int)point.x * 320/maxX);        if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
         {
         	cmd=instr_type.LINE_START;
         }
@@ -128,24 +129,3 @@ class Point {
     }
 }
 
-class MyPath {
-	Path onePath = new Path();
-	int color;
-	Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-	Paint paint_border  = new Paint(Paint.ANTI_ALIAS_FLAG);
-	
-	/*	
-	public MyPath (){
-		paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
-	}
-	
-	public MyPath(MyPath m)
-	{
-		this.color = m.color;
-		Path path = new Path();
-		this.path = m.path;
-	}
-*/
-
-}

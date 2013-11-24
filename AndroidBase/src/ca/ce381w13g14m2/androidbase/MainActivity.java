@@ -198,9 +198,7 @@ public class MainActivity extends Activity {
 					if (bytes_avail >=7) {
 						in.read(buf);
 						instr=new Instruction(buf);
-						Log.i("TimerTask","Cmd:"+instr.getCmd().toString()+" P:"+Integer.toHexString(instr.getPixel())+" C:("+Color.red(instr.getColor())+","+Color.green(instr.getColor())+","+Color.blue(instr.getColor())+")");
-					}
-					
+						Log.i("TimerTask","Cmd:"+instr.getCmd().toString()+" P:"+Integer.toHexString(instr.getPixel())+" C:("+Color.red(instr.getColor())+","+Color.green(instr.getColor())+","+Color.blue(instr.getColor())+")");					}
 				}catch (IOException e) {
 					e.printStackTrace();
 				}
