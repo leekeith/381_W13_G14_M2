@@ -27,7 +27,7 @@ public class Instruction {
 	
 	public void setPixel(int pixel)
 	{
-		if(pixel<=320*240 && pixel>0)
+		if(pixel>0)
 			this.pixel=pixel;
 		else
 			this.pixel=0;
@@ -84,7 +84,7 @@ public class Instruction {
 		
 		this.cmd=instr_type.getType((char)seq[0]);
 		
-		this.pixel=(int)(seq[4]+(int)(seq[3]<<8)+(int)(seq[2]<<16)+(int)(seq[1]<<24));
+		this.pixel=(int)((int)seq[4]&0xff | (seq[3]<<8)&0xff00 | (seq[2]<<16)&0xff0000 | (seq[1]<<24)&0xff000000);
 		
 		this.color=(short)(seq[5]+(short)(seq[6]<<8));
 		

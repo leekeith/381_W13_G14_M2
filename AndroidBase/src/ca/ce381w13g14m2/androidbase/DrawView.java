@@ -73,23 +73,26 @@ private  boolean line_start=true;
 
     public boolean onTouch(View view, MotionEvent event) {
         
+        int maxX=view.getWidth();
+        int maxY=view.getHeight();
         
     	Point point = new Point();
         point.x = event.getX();
         point.y = event.getY();
-        if(point.x>600)
-        	point.x=600;
+        
+        if(point.x>maxX-1)
+        	point.x=maxX-1;
         if(point.x<0)
         	point.x=0;
-        if(point.y>440)
-        	point.y=440;
+        if(point.y>maxY-1)
+        	point.y=maxY-1;
         if(point.y<0)
         	point.y=0;
         points.add(point);
         invalidate();
         Log.d(TAG, "point: " + point);
         
-        i = ((int)point.y * 600/320) + ((int)point.x * 320/600);
+        i = ((int)point.y * 240/maxY)*320 + ((int)point.x * 320/maxX);
         if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
         {
         	cmd=instr_type.LINE_START;
