@@ -110,25 +110,32 @@ public class MainActivity extends Activity {
 			closeSocket(null);
 	}
 	
-
 	public void color_blue(View view) {
-		drawView.color = Color.BLUE;
-		app.instr.setColor(Color.BLUE);
+		DrawView.color = Color.BLUE;
 	}
-	
 	public void color_yellow(View view) {
-		drawView.color = Color.YELLOW;
-		app.instr.setColor(Color.YELLOW);
+		DrawView.color = Color.YELLOW;
 	}
-	
 	public void color_green(View view) {
-		drawView.color = Color.GREEN;
-		app.instr.setColor(Color.GREEN);
+		DrawView.color = Color.GREEN;
 	}
-	
 	public void color_red(View view) {
-		drawView.color = Color.RED;
-		app.instr.setColor(Color.RED);
+		DrawView.color = Color.RED;
+	}
+	public void color_white(View view) {
+		DrawView.color = Color.WHITE;
+	}
+	public void color_black(View view) {
+		DrawView.color = Color.BLACK;
+	}
+	public void color_cyan(View view) {
+		DrawView.color = Color.CYAN;
+	}
+	public void color_magenta(View view) {
+		DrawView.color = Color.MAGENTA;
+	}
+	public void color_dkgray(View view) {
+		DrawView.color = Color.DKGRAY;
 	}
 	
 	public void onClear(View view)

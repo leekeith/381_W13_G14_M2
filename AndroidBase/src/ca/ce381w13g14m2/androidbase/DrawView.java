@@ -16,8 +16,8 @@ import android.view.View.OnTouchListener;
 public class DrawView extends View implements OnTouchListener {
 private final String TAG = "DrawView";
 private String send_data = null;
-public boolean clear = false;
-public int color = Color.RED;
+public static boolean clear = false;
+public static int color = Color.RED;
 public int i = 0;
 public instr_type cmd=instr_type.NONE;
 private  boolean line_start=true;
@@ -55,6 +55,7 @@ private  boolean line_start=true;
         		paths.get(i).onePath.reset();
     	}
     	path.paint.setColor(color);
+        path.paint.setAlpha(170);
     	for(Point point : points){
             if(first){
                 first = false;
