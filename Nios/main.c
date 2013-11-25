@@ -15,22 +15,31 @@
 #include"sdcard.h"
 #include"lib_instr.h"
 #include"wk_io.h"
+#include"rs232.h"
 
 //Precomple definitions
-#define NO_COMMS
+//#define NO_COMMS
 #define GRID_COLOR		0x9edd
 
 //Globals
 unsigned short* image;
 unsigned short* back_buffer;
-alt_u8 buf_swap;
+alt_u8 buf_swap,check_uart;
 
 alt_u32 isr_alarm(void* context)
 {
 	buf_swap=1;
+	check_uart=1;
 	return 1;
 }
-//Draws white horizontal and vertical lines on-screen,
+
+alt_u32 isr_uart(void* context)
+{
+	check_uart=1;
+	return 1;
+}
+
+//Draws horizontal and vertical lines on-screen,
 //dividing the screen on a 10x10 grid
 void drawGrid(alt_up_pixel_buffer_dma_dev* screen)
 {
@@ -90,8 +99,11 @@ int main(int argc, char** argv)
 	alt_up_pixel_buffer_dma_dev* screen;
 	instr_t instr;
 	range_t* range;
-	alt_alarm* alarm;
+	alt_alarm* alarm,alarm2;
 	unsigned int prev_pix;
+	unsigned char instr_buf[7];
+	alt_up_rs232_dev* uart;
+	unsigned char data,parity;
 
 	alarm=(alt_alarm*)malloc(sizeof(alt_alarm));
 
@@ -131,21 +143,25 @@ int main(int argc, char** argv)
 	//Initializations
 	screen=pixelInit();
 	alarm=(alt_alarm*)malloc(sizeof(alt_alarm));
+	//alarm2=(alt_alarm*)malloc(sizeof(alt_alarm));
 	nticks=alt_ticks_per_second();
 	sdcard_init();
+	uart = rs232_inti();
+
 
 
 	//Boolean loop controllers
+	check_uart=0;
 	grid_on=1;
 	grid_was_on=0;
-	instr_isnew=0;
+	instr_isnew=1;
 	buf_swap=1;
 	run=1;
 	redraw=0;
 
 	//Initialize current instruction to NULL
-	instr.cmd=NONE;
-	instr.color=0;
+	instr.cmd=FILL_SCR;
+	instr.color=0xffff;
 	instr.pixel=0;
 	for(i=0;i<12;i++)
 		instr.message[i]=0;
@@ -161,6 +177,7 @@ int main(int argc, char** argv)
 	clrScr(screen);
 	back_buffer=alt_remap_uncached((void*)screen->back_buffer_start_address,STD_W*STD_H);
 	if(alt_alarm_start(alarm,nticks/30,isr_alarm,NULL)<0)printf("\nNo Alarm 1\n");
+	clear_fifo(uart, &data, &parity);
 
 	//main loop
 
@@ -168,7 +185,7 @@ int main(int argc, char** argv)
 	{
 #ifdef NO_COMMS
 		//Get next premaed instruction
-		if(instr.cmd==NONE&&instr_index<120)
+		/*if(instr.cmd==NONE&&instr_index<120)
 		{
 			instr.cmd=instrs[instr_index].cmd;
 			instr.pixel=instrs[instr_index].pixel;
@@ -176,9 +193,24 @@ int main(int argc, char** argv)
 			instr_index++;
 			instr_isnew=1;
 			//buf_swap=1;
+		}*/
+		if(instr_index<120)
+		{
+			instr_send(&instrs[instr_index], uart);
+			instr_index++;
 		}
-#endif
 
+#endif
+		if(check_uart)
+		{
+			check_uart=0;
+			if(alt_up_rs232_get_used_space_in_read_FIFO(uart)!=0)
+			{
+				make_command(uart, instr_buf);
+				instr_make(&instr, instr_buf);
+				instr_isnew=1;
+			}
+		}
 
 		//Instruction execution
 		if(instr_isnew)
@@ -260,8 +292,8 @@ int main(int argc, char** argv)
 				resetRange(range);
 				break;
 			}
-			strcpy(instr.message,"confirm");
-			instr_send(&instr);
+			//strcpy(instr.message,"confirm");
+			//instr_send(&instr);
 		}
 
 		//Check if grid status has changed
@@ -273,7 +305,6 @@ int main(int argc, char** argv)
 			grid_was_on=grid_on;
 			redraw=1;
 			resetRange(range);
-		}
 		}
 
 		if(buf_swap)
@@ -306,8 +337,9 @@ int main(int argc, char** argv)
 				redraw=0;
 			}
 			buf_swap=0;
-
 		}
+
+	}
 	printf("Process terminated\n");
 	free(screen);
 	free(image);

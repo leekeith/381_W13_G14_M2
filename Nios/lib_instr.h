@@ -4,7 +4,7 @@
  *  Created on: 2013-11-06
  *      Author: Keith
  */
-
+#include "rs232.h"
 #ifndef LIB_INSTR_H_
 #define LIB_INSTR_H_
 
@@ -38,7 +38,7 @@ typedef struct e_range
 int start,stop,pos,sync;
 }range_t;
 
-void instr_make(instr_t* instr, char string[128]);
-void instr_send(instr_t* instr);
+void instr_make(instr_t* instr, unsigned char string[7]);
+void instr_send(instr_t* instr, alt_up_rs232_dev* uart);
 
 #endif /* LIB_INSTR_H_ */

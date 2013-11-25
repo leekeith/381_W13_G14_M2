@@ -148,6 +148,7 @@ C_SRCS += sdcard.c
 C_SRCS += wk_video.c
 C_SRCS += lib_instr.c
 C_SRCS += wk_io.c
+C_SRCS += rs232.c
 CXX_SRCS :=
 ASM_SRCS :=
 
