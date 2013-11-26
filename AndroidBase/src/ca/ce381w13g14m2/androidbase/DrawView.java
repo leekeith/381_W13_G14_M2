@@ -23,6 +23,7 @@ public int i = 0;
 public instr_type cmd=instr_type.NONE;
 private  boolean line_start=true;
 public RadioGroup radio;
+public int oldRadioId;
 
 
     List<Point> points = new ArrayList<Point>();
@@ -114,9 +115,14 @@ public RadioGroup radio;
 	          	cmd=instr_type.LINE_PT;
 	        }
         }
-        else//if(radio.getCheckedRadioButtonId()==R.id.radio_draw_pixel)
+        else if(radio.getCheckedRadioButtonId()==R.id.radio_draw_pixel)
         {
         	cmd=instr_type.FILL_PIXEL;
+        }
+        else //if(radio.getCheckedRadioButtonId()==R.id.radio_fill_color)
+        {
+        	cmd=instr_type.FILL_COLOR;
+        	radio.check(oldRadioId);
         }
 	        
         send_data = Integer.toString(i);

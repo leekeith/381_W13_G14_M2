@@ -218,7 +218,7 @@ void fillPixel(unsigned short* image, int pix_offset, short color)
 void fillColor(unsigned short* image, int pix_offset, short color, range_t* r)
 {
 	int i;
-	short startColor=image[pix_offset];
+	unsigned short startColor=image[pix_offset];
 	r->start=STD_H*STD_W;
 	r->stop=0;
 	for(i=0;i<STD_W*STD_H;i++)

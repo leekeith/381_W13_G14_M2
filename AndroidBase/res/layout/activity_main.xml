@@ -10,7 +10,8 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".MainActivity"
+    tools:ignore="HardcodedText" >
 
     <ca.ce381w13g14m2.androidbase.DrawView
         android:id="@+id/drawView1"
@@ -22,16 +23,6 @@
         android:layout_centerVertical="false"
         android:background="@drawable/grid" />
 
-    <SeekBar
-        android:id="@+id/seekBar1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/drawView1"
-        android:layout_marginBottom="52dp"
-        android:layout_toRightOf="@+id/drawView1"
-        android:max="20"
-        android:progress="1" />
-
     <CheckBox
         android:id="@+id/check_box2"
         android:layout_width="wrap_content"
@@ -40,33 +31,6 @@
         android:layout_alignRight="@+id/seekBar1"
         android:clickable="false"
         android:text="Connected" />
-
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/seekBar1"
-        android:layout_alignTop="@+id/drawView1"
-        android:onClick="onClear"
-        android:text="@string/button_clear" />
-
-    <TextView
-        android:id="@+id/TextView01"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/seekBar1"
-        android:layout_alignLeft="@+id/seekBar1"
-        android:text="@string/label_brushsize"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/TextView01"
-        android:layout_centerVertical="true"
-        android:text="@string/label_color"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
@@ -187,16 +151,6 @@
         </LinearLayout>
     </HorizontalScrollView>
 
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/horizontalScrollView1"
-        android:layout_alignLeft="@+id/horizontalScrollView1"
-        android:layout_marginBottom="22dp"
-        android:onClick="fill_screen"
-        android:text="Fill Screen" />
-
     <RadioGroup
         android1:id="@+id/radioGroup1"
         android1:layout_width="wrap_content"
@@ -216,6 +170,65 @@
             android1:layout_width="wrap_content"
             android1:layout_height="wrap_content"
             android1:text="Draw Pixel" />
+
+        <RadioButton
+            android1:id="@+id/radio_fill_color"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:text="Fill Color" />
+
     </RadioGroup>
+
+    <Button
+        android1:id="@+id/button2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/horizontalScrollView1"
+        android1:layout_marginBottom="89dp"
+        android1:layout_toRightOf="@+id/textView1"
+        android1:onClick="fill_screen"
+        android1:text="Fill Screen" />
+
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBaseline="@+id/button2"
+        android1:layout_alignBottom="@+id/button2"
+        android1:layout_alignLeft="@+id/textView1"
+        android1:onClick="onClear"
+        android1:text="@string/button_clear" />
+
+    <TextView
+        android1:id="@+id/TextView01"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/textView1"
+        android1:layout_below="@+id/horizontalScrollView1"
+        android1:layout_marginTop="40dp"
+        android1:text="@string/label_brushsize"
+        android1:textAppearance="?android:attr/textAppearanceMedium"
+        android1:visibility="invisible" />
+
+    <SeekBar
+        android1:id="@+id/seekBar1"
+        android1:layout_width="match_parent"
+        android1:layout_height="wrap_content"
+        android1:layout_below="@+id/TextView01"
+        android1:layout_toRightOf="@+id/drawView1"
+        android1:max="20"
+        android1:progress="1"
+        android1:visibility="invisible" />
+
+    <TextView
+        android1:id="@+id/textView1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignTop="@+id/drawView1"
+        android1:layout_marginTop="181dp"
+        android1:layout_toLeftOf="@+id/horizontalScrollView1"
+        android1:text="@string/label_color"
+        android1:textAppearance="?android:attr/textAppearanceMedium" />
+
 
 </RelativeLayout>

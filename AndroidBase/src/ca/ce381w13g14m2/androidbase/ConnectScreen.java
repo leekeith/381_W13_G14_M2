@@ -88,6 +88,10 @@ public class ConnectScreen extends Activity {
 						break;	
 					}
 				}
+				else if(hasFocus)
+				{
+					et.setText("");
+				}
 				
 			}
 		};

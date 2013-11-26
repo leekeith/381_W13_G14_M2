@@ -5,8 +5,10 @@
     android:orientation="vertical" >
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:orientation="horizontal" >
 
         <TextView
@@ -51,45 +53,56 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:orientation="horizontal" >
 
         <TextView
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:gravity="center"
             android:text="Port" />
 
         <EditText
             android:id="@+id/port"
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="4"
+            android:layout_weight="1"
             android:hint="50002"
-            android:inputType="number" />
+            android:inputType="number" >
+            <requestFocus /> </EditText>
+            
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/button_connect"
-        android:layout_width="fill_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="openSocket"
-        android:text="Connect" />
+        android:layout_gravity="center" >
+
+        <Button
+            android:id="@+id/button_connect"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="openSocket"
+            android:text="Connect" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:onClick="closeSocket"
+            android:text="Disconnect" />
+    </LinearLayout>
 
     <Button
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:onClick="sendMessage"
         android:text="Send Test Message" />
-
-    <Button
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:onClick="closeSocket"
-        android:text="Disconnect" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -101,10 +114,7 @@
         android:id="@+id/MessageText"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:ems="10" >
-
-        <requestFocus />
-    </EditText>
+        android:ems="10" />
 
     <TextView
         android:layout_width="fill_parent"
@@ -118,13 +128,6 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number" />
-
-    <Button
-        android:id="@+id/printscreen"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="send"
-        android:text="Send the Picture" />
 
     <CheckBox
         android:id="@+id/check_box2"

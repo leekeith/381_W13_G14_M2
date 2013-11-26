@@ -15,6 +15,6 @@
     <string name="title_activity_connect_screen">ConnectScreen</string>
     <string name="title_activity_my_application">MyApplication</string>
     <string name="title_activity_splash_screen">SplashScreen</string>
-    <string name="info">Copyright 2013 - DoIP Inc.</string>
+    <string name="info">Copyright 2013 - EECE 381 Group 14</string>
 
 </resources>

@@ -9,10 +9,13 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,7 +23,9 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -59,10 +64,21 @@ public class MainActivity extends Activity {
 				app.instr.setColor(drawView.color);
 				app.instr.setCmd(drawView.cmd);
 				app.instr.setPixel(drawView.i);
+				
 				return true;
 			}
 		});
 		drawView.radio=(RadioGroup)findViewById(R.id.radioGroup1);
+		drawView.radio.setOnCheckedChangeListener(new OnCheckedChangeListener(){
+
+			@Override
+			public void onCheckedChanged(RadioGroup radios, int checked) {
+				if(checked!=R.id.radio_fill_color)
+					drawView.oldRadioId=checked;
+			}
+		});
+		drawView.oldRadioId=drawView.radio.getCheckedRadioButtonId();
+		
 	}
 	
 	@Override
@@ -96,8 +112,8 @@ public class MainActivity extends Activity {
 	        	Intent i=new Intent(this,ConnectScreen.class);
 	              startActivity(i);
 	              return true;
-	        case R.id.action_settings:
-	            return true;
+	      //  case R.id.action_settings:
+	      //      return true;
 	        default:
 	            return super.onOptionsItemSelected(item);
 		}
@@ -120,12 +136,14 @@ public class MainActivity extends Activity {
 	
 	public void color_blue(View view) {
 		DrawView.color = Color.BLUE;
+		
 	}
 	public void color_yellow(View view) {
 		DrawView.color = Color.YELLOW;
 	}
 	public void color_green(View view) {
 		DrawView.color = Color.GREEN;
+		
 	}
 	public void color_red(View view) {
 		DrawView.color = Color.RED;
@@ -150,6 +168,10 @@ public class MainActivity extends Activity {
 	{
 		drawView.clear = true;
 		drawView.postInvalidate();
+		app.instr.setCmd(instr_type.FILL_SCR);
+		app.instr.setColor(Color.WHITE);
+		app.instr.setPixel(0);
+		
 	}
 	
 	public void closeSocket(View view) {
@@ -230,8 +252,7 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
-		
-		
-		
 	}
+	
+
 }
