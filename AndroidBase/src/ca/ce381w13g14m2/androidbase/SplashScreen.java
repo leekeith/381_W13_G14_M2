@@ -7,12 +7,19 @@ import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
  
+/*
+ * DoIP Android
+ * SplashScreen:	Displays app logo and copyright info on
+ * 					application startup
+ * Author:			Syed R
+ */
 public class SplashScreen extends Activity {
  
     private static int DISPLAY_TIME = 4000; //milliseconds
  
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	//Display full screen with no title bar
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);// hide statusbar of Android
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,

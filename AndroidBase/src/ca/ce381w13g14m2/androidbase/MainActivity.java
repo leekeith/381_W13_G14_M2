@@ -29,35 +29,51 @@ import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
+/*
+ * DoIP Android
+ * ============
+ * Main Activity:	Main ui thread.  Contains drawView and buttons for
+ * 					selecting color and instruction type
+ * Author: Syed R, Jon M, Keith L, Karl K
+ */
 public class MainActivity extends Activity {
 	DrawView drawView;
     SeekBar seekbar;
     static int brushWidth;
     TheApplication app;
     
-    
+    //Called when activity starts
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);   
+		setContentView(R.layout.activity_main);
+		
+		//configure views
 		drawView=(DrawView)findViewById(R.id.drawView1);
 		seekbar = (SeekBar) findViewById(R.id.seekBar1);
 		
 		
 		seekbar.setOnSeekBarChangeListener( new OnSeekBarChangeListener(){
+			
+			//Seekbar to set width of brush
 			public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
 		        brushWidth = progress;
 			}
+			
+			//Do-nothing events
 			@Override
 			public void onStartTrackingTouch(SeekBar arg0) {}
 			@Override
 			public void onStopTrackingTouch(SeekBar arg0) {}
 		}); 
+		
+		//Configure application settings
 		app=(TheApplication)getApplication();
 		app.tcp_timer=new Timer();
 		
 		app.instr.setColor(Color.RED);
 		drawView.setOnTouchListener(new OnTouchListener(){
+			//Override drawView's onTouch with app context
 			public boolean onTouch(View view, MotionEvent event)
 			{
 				drawView.onTouch(view, event);
@@ -70,7 +86,7 @@ public class MainActivity extends Activity {
 		});
 		drawView.radio=(RadioGroup)findViewById(R.id.radioGroup1);
 		drawView.radio.setOnCheckedChangeListener(new OnCheckedChangeListener(){
-
+			//Store the instruction type to return to after fillColor
 			@Override
 			public void onCheckedChanged(RadioGroup radios, int checked) {
 				if(checked!=R.id.radio_fill_color)
@@ -81,6 +97,7 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	//Reconnects to middleman when returning to this activity
 	@Override
 	public void onResume()
 	{
@@ -97,13 +114,14 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	//Display options menu
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-
+	//Call ConnectScreen when "Connect" clicked.
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    // Handle presses on the action bar items
@@ -119,6 +137,7 @@ public class MainActivity extends Activity {
 		}
     }
 	
+	//Close TCP connection (if open) on pause
 	@Override
 	public void onPause()
 	{
@@ -127,6 +146,7 @@ public class MainActivity extends Activity {
 			closeSocket(null);
 	}
 	
+	//Send fill screen command to middleman
 	public void fill_screen(View view)
 	{
 		app.instr.setCmd(instr_type.FILL_SCR);
@@ -134,6 +154,8 @@ public class MainActivity extends Activity {
 		app.instr.setPixel(0);
 	}
 	
+	//Set brush color when color box pressed
+	//======================================
 	public void color_blue(View view) {
 		DrawView.color = Color.BLUE;
 		
@@ -164,6 +186,8 @@ public class MainActivity extends Activity {
 		DrawView.color = Color.DKGRAY;
 	}
 	
+	//Clear drawView and send a FillScr(White)
+	//command to middleman
 	public void onClear(View view)
 	{
 		drawView.clear = true;
@@ -174,6 +198,7 @@ public class MainActivity extends Activity {
 		
 	}
 	
+	//Disconnect from middleman
 	public void closeSocket(View view) {
 		Socket s = app.getSock();
 		try {
@@ -183,12 +208,17 @@ public class MainActivity extends Activity {
 			e.printStackTrace();
 		}
 	}
+	
+	//Asynch task connecting to middleman over TCP port
 	public class SocketConnect extends AsyncTask<TheApplication, Void, Socket>{
+		//While normal operation continues, wait for connection
 		protected Socket doInBackground(TheApplication... apps){
 			Socket s=null;
 			try{
 				s=new Socket(apps[0].getAddr(),apps[0].getPort());
-			}catch(UnknownHostException e){
+			}
+			//Debug connection failiures
+			catch(UnknownHostException e){
 				Log.w("SocketConnect", "Unknown Host");
 				e.printStackTrace();
 			} catch (IOException e) {
@@ -199,6 +229,9 @@ public class MainActivity extends Activity {
 			return s;
 		
 		}
+		
+		//When connection complete, pass socket to Application
+		//Indicate connected via checkbox
 		protected void onPostExecute(Socket s){
 			app.setSock(s);
 			CheckBox cb=(CheckBox)findViewById(R.id.check_box2);
@@ -217,13 +250,18 @@ public class MainActivity extends Activity {
 	
 	}
 	
+	
+	//Task to be done on timer interrupt
+	//Checks for incomming instructions and sends any pending instructions
 	public class TCPTimerTask extends TimerTask{
-
+		
+		//Runs on every timer event.
 		@Override
 		public void run() {
 			InputStream in;
 			OutputStream out;
 			if (app.getSock() != null && app.getSock().isConnected()&& !app.sock.isClosed()) {
+				//Get instruction
 				byte[] buf=new byte[7];
 				Instruction instr;
 				try {
@@ -242,6 +280,7 @@ public class MainActivity extends Activity {
 				
 				if(app.instr.getCmd()!=instr_type.NONE)
 				{
+					//if instruction pending, transmit
 					try{
 						out=app.getSock().getOutputStream();
 						out.write(app.instr.toTransmit(""));

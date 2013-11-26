@@ -1,13 +1,22 @@
 package ca.ce381w13g14m2.androidbase;
 
 import android.graphics.Color;
-
+/*
+ * DoIP Android
+ * ============
+ * Instruction: Data structure containing all required fields
+ * 				for transmitting an instruction over TCP connection
+ * 				Contains methods for converting a bytestream to an
+ * 				instruction and an instruction into a bytestream
+ * Author: Keith L
+ */
 public class Instruction {
 	
 	private instr_type cmd;
 	private int pixel;
 	private short color;
 	
+	// Constructor for given command
 	public Instruction(instr_type cmd, int pixel, short color)
 	{
 		this.cmd=cmd;
@@ -15,11 +24,14 @@ public class Instruction {
 		this.color=color;
 	}
 	
+	// Constructor for given bytestream
 	public Instruction(byte buffer[])
 	{
 		this.recieveInstruction(buffer);
 	}
 	
+	// Setters
+	// =======
 	public void setCmd(instr_type cmd)
 	{
 		this.cmd=cmd;
@@ -42,6 +54,8 @@ public class Instruction {
 		this.color=(short)(((r&0xF8)<<8)+((g&0xFC)<<3)+((b&0xf8)>>3));
 	}
 	
+	//Getters
+	//=======
 	public instr_type getCmd()
 	{
 		return this.cmd;
@@ -56,6 +70,7 @@ public class Instruction {
 		return Color.rgb((int)(this.color&0xf800),(int)(this.color&0x07e0)<<5,(int)(this.color&0x003f)<<11);
 	}
 	
+	//Convert instruction into bytestream for transmission
 	public byte[] toTransmit(String msg)
 	{
 		byte[] seq=new byte[7+msg.length()];
@@ -78,6 +93,7 @@ public class Instruction {
 		else return new byte[0];
 	}
 	
+	//Populate instruction from bytestream
 	public String recieveInstruction(byte[] seq)
 	{
 		String msg=new String();

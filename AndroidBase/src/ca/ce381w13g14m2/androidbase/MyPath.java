@@ -2,7 +2,13 @@ package ca.ce381w13g14m2.androidbase;
 
 import android.graphics.Paint;
 import android.graphics.Path;
-
+/*
+ * DoIP Android
+ * ============
+ * MyPath:	Path plus context to separate sequences of
+ * 			points.  Allows paths to retain their color
+ * Author: 	Syed R
+ */
 public class MyPath {
 	Path onePath;
 	int color;
@@ -16,7 +22,6 @@ public class MyPath {
 		paint_border = new Paint(Paint.ANTI_ALIAS_FLAG);
 	}
 	
-	//TODO: Copy Constructor for MyPath
 	
 	//Copy Constructor
 	public MyPath(MyPath c)

@@ -6,6 +6,14 @@ import java.util.Timer;
 import android.app.Application;
 import android.widget.RadioGroup;
 
+/*
+ * DoIP Android
+ * ============
+ * TheApplication: 	Container for activities.  Holds global
+ * 					values to be carried over between these
+ * 					activities
+ * Author:			Keith L
+ */
 public class TheApplication extends Application{
 	protected Socket sock;
 	public Timer tcp_timer;
@@ -13,6 +21,7 @@ public class TheApplication extends Application{
 	protected Integer port;
 	public Instruction instr;
 	
+	//Constructor
 	public TheApplication()
 	{
 		sock=null;
@@ -22,6 +31,8 @@ public class TheApplication extends Application{
 		instr=new Instruction(instr_type.NONE,0,(short)0);
 	}
 	
+	//Setters
+	//=======
 	public void setSock(Socket s)
 	{
 		this.sock=s;
@@ -37,6 +48,8 @@ public class TheApplication extends Application{
 		this.port=port;
 	}
 	
+	//Getters
+	//=======
 	public String getAddr()
 	{
 		return ip[0]+"."+ip[1]+"."+ip[2]+"."+ip[3];

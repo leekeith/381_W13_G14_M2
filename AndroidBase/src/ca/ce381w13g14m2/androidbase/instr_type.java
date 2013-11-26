@@ -1,7 +1,15 @@
 package ca.ce381w13g14m2.androidbase;
 
+/*
+ * DoIP Android
+ * ============
+ * instr_type:  An enumeration used to interpret instructions
+ * 				sent and received over the TCP connection
+ * 
+ * Author:	Keith L
+ */
 public enum instr_type {
-	
+	//Enums
 	FILL_PIXEL('P'),
 	FILL_SCR('F'),
 	SAVE('S'),
@@ -16,15 +24,22 @@ public enum instr_type {
 	LINE_PT('L'),
 	LINE_END('E');
 	
+	//Holds character associated with enum type
 	private final char value;
+	
+	//Generator
 	instr_type(char value)
 	{
 		this.value=value;
 	}
+	
+	//Gets character associated with type
 	public char getValue()
 	{
 		return this.value;
 	}
+	
+	//Returns instruction type associated with given character
 	public static instr_type getType(char value)
 	{
 		switch(value)

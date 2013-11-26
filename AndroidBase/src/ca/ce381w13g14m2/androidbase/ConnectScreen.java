@@ -28,6 +28,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 //import ca.ce381w13g14m2.androidbase.Info;
 
+/*
+ * DoIP Andorid
+ * ============
+ * ConnectScreen:	Displays connection options and test message sender
+ * Author:			Karl K
+ */
 public class ConnectScreen extends Activity {
 	TheApplication app;
 	//Info data = new Info();
