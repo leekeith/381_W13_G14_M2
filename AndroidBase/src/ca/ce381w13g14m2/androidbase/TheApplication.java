@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.Timer;
 
 import android.app.Application;
+import android.widget.RadioGroup;
 
 public class TheApplication extends Application{
 	protected Socket sock;

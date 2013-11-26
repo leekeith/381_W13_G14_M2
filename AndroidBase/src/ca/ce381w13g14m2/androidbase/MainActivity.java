@@ -20,6 +20,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.SeekBar.OnSeekBarChangeListener;
 
@@ -61,7 +62,7 @@ public class MainActivity extends Activity {
 				return true;
 			}
 		});
-		
+		drawView.radio=(RadioGroup)findViewById(R.id.radioGroup1);
 	}
 	
 	@Override
@@ -108,6 +109,13 @@ public class MainActivity extends Activity {
 		super.onPause();
 		if(app.getSock()!=null)
 			closeSocket(null);
+	}
+	
+	public void fill_screen(View view)
+	{
+		app.instr.setCmd(instr_type.FILL_SCR);
+		app.instr.setColor(DrawView.color);
+		app.instr.setPixel(0);
 	}
 	
 	public void color_blue(View view) {

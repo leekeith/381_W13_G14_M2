@@ -1,10 +1,11 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<RelativeLayout xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:android1="http://schemas.android.com/apk/res/android"
     android:id="@+id/RelativeLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
+    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -69,19 +70,19 @@
 
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView1"
-        android:background="@drawable/graybg"
         android:layout_width="260dp"
         android:layout_height="60dp"
         android:layout_alignRight="@+id/seekBar1"
-        android:layout_alignTop="@+id/textView1" >
+        android:layout_alignTop="@+id/textView1"
+        android:background="@drawable/graybg" >
 
         <LinearLayout
             android:layout_width="250dp"
             android:layout_height="50dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="5dp"
             android:orientation="horizontal" >
 
             <ImageButton
@@ -103,9 +104,9 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
-                android:state_selected="true"
                 android:background="@drawable/blue"
-                android:onClick="color_blue" />
+                android:onClick="color_blue"
+                android:state_selected="true" />
 
             <ImageButton
                 android:id="@+id/imageButton03"
@@ -185,5 +186,36 @@
                 android:onClick="color_black" />
         </LinearLayout>
     </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/horizontalScrollView1"
+        android:layout_alignLeft="@+id/horizontalScrollView1"
+        android:layout_marginBottom="22dp"
+        android:onClick="fill_screen"
+        android:text="Fill Screen" />
+
+    <RadioGroup
+        android1:id="@+id/radioGroup1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/button2"
+        android1:layout_alignRight="@+id/horizontalScrollView1" >
+
+        <RadioButton
+            android1:id="@+id/radio_draw_line"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:checked="true"
+            android1:text="Draw Line" />
+
+        <RadioButton
+            android1:id="@+id/radio_draw_pixel"
+            android1:layout_width="wrap_content"
+            android1:layout_height="wrap_content"
+            android1:text="Draw Pixel" />
+    </RadioGroup>
 
 </RelativeLayout>

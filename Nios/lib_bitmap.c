@@ -297,7 +297,7 @@ void fillLine(unsigned short* image, int last_offset, int next_offset, short col
 		if (steep == 1)
 		{
 			for (x=x_0; x <= x_1; x++) {
-				fillPixel(image, y*STD_W+x,color);
+				fillPixel(image, x*STD_W+y,color);
 				error = error + deltay;
 				if (error > 0) {
 					y = y + ystep;
@@ -308,7 +308,7 @@ void fillLine(unsigned short* image, int last_offset, int next_offset, short col
 		else
 		{
 			for (x=x_0; x <= x_1; x++) {
-				fillPixel(image,x*STD_W+y,color);
+				fillPixel(image,y*STD_W+x,color);
 				error = error + deltay;
 				if (error > 0) {
 					y = y + ystep;

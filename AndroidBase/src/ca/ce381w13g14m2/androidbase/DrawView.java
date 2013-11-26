@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
+import android.widget.RadioGroup;
 
 public class DrawView extends View implements OnTouchListener {
 private final String TAG = "DrawView";
@@ -21,6 +22,7 @@ public static int color = Color.RED;
 public int i = 0;
 public instr_type cmd=instr_type.NONE;
 private  boolean line_start=true;
+public RadioGroup radio;
 
 
     List<Point> points = new ArrayList<Point>();
@@ -95,19 +97,28 @@ private  boolean line_start=true;
         invalidate();
         Log.d(TAG, "point: " + point);
         
-        i = ((int)point.y * 240/maxY)*320 + ((int)point.x * 320/maxX);        if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
-        {
-        	cmd=instr_type.LINE_START;
-        }
-        else if(event.getAction()==android.view.MotionEvent.ACTION_UP)
-        {
-        	cmd=instr_type.LINE_END;
-        }
-        else
-        {
-          	cmd=instr_type.LINE_PT;
-        }
+        i = ((int)point.y * 240/maxY)*320 + ((int)point.x * 320/maxX);
         
+        if(radio.getCheckedRadioButtonId()==R.id.radio_draw_line)
+        {
+	        if(event.getAction()==android.view.MotionEvent.ACTION_DOWN)
+	        {
+	        	cmd=instr_type.LINE_START;
+	        }
+	        else if(event.getAction()==android.view.MotionEvent.ACTION_UP)
+	        {
+	        	cmd=instr_type.LINE_END;
+	        }
+	        else
+	        {
+	          	cmd=instr_type.LINE_PT;
+	        }
+        }
+        else//if(radio.getCheckedRadioButtonId()==R.id.radio_draw_pixel)
+        {
+        	cmd=instr_type.FILL_PIXEL;
+        }
+	        
         send_data = Integer.toString(i);
         Log.d("TimerTask", "Cmd:"+cmd+" X:"+Float.toString(point.x)+" Y:"+Float.toString(point.y));
         
