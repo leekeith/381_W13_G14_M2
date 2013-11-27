@@ -50,12 +50,17 @@ public int oldRadioId;
     	boolean first = true;
     	
         path.paint.setStrokeWidth(MainActivity.brushWidth);
+        path.paint.setStrokeWidth(3);
     	if(clear)
     	{
     		clear = false;
     		points.clear();
+    		paths.removeAll(points);
     		for (int i = 0;i<paths.size();i++)
+    		{
         		paths.get(i).onePath.reset();
+    		}
+
     	}
     	path.paint.setColor(color);
         path.paint.setAlpha(170);
@@ -122,9 +127,9 @@ public int oldRadioId;
         else //if(radio.getCheckedRadioButtonId()==R.id.radio_fill_color)
         {
         	cmd=instr_type.FILL_COLOR;
-        	radio.check(oldRadioId);
+        	//radio.check(oldRadioId);
         }
-	        
+        
         send_data = Integer.toString(i);
         Log.d("TimerTask", "Cmd:"+cmd+" X:"+Float.toString(point.x)+" Y:"+Float.toString(point.y));
         
