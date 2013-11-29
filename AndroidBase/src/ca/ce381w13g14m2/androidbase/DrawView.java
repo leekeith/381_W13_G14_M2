@@ -148,12 +148,12 @@ public class DrawView extends View implements OnTouchListener {
         	cmd=instr_type.FILL_COLOR;
         	//radio.check(oldRadioId);
         }
-<<<<<<< HEAD
+
 	      
         // Debug message
-=======
+
         
->>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
+
         send_data = Integer.toString(i);
         Log.d("TimerTask", "Cmd:"+cmd+" X:"+Float.toString(point.x)+" Y:"+Float.toString(point.y));
         

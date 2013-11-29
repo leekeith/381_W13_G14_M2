@@ -156,16 +156,16 @@ public class MainActivity extends Activity {
 		app.instr.setPixel(0);
 	}
 	
-<<<<<<< HEAD
+
 	//Set brush color when color box pressed
 	//======================================
-=======
+
 	public void color_red(View view) {
 		DrawView.color = Color.RED;
 		color_border();
 		view.setBackgroundResource(R.drawable.red_border);
 	}
->>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
+
 	public void color_blue(View view) {
 		DrawView.color = Color.BLUE;
 		color_border();
@@ -206,11 +206,11 @@ public class MainActivity extends Activity {
 		color_border();
 		view.setBackgroundResource(R.drawable.dkgray_border);
 	}
-<<<<<<< HEAD
+
 	
 	//Clear drawView and send a FillScr(White)
 	//command to middleman
-=======
+
 
 	public void color_border()
 	{
@@ -235,7 +235,7 @@ public class MainActivity extends Activity {
 		black.setBackgroundResource(R.drawable.black);
 	}
 
->>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
+
 	public void onClear(View view)
 	{
 		View draw_area = (ca.ce381w13g14m2.androidbase.DrawView) findViewById(R.id.drawView1);
