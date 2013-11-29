@@ -147,6 +147,8 @@ public class MainActivity extends Activity {
 	//Send fill screen command to middleman
 	public void fill_screen(View view)
 	{	
+        CheckBox check = (CheckBox) findViewById(R.id.CheckBox01);
+        check.setChecked(false);
 		drawView.clear = true;
 		drawView.postInvalidate();
 		View draw_area = (ca.ce381w13g14m2.androidbase.DrawView) findViewById(R.id.drawView1);
