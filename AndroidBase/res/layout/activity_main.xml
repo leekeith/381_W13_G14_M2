@@ -32,125 +32,6 @@
         android:clickable="false"
         android:text="Connected" />
 
-    <HorizontalScrollView
-        android:id="@+id/horizontalScrollView1"
-        android:layout_width="260dp"
-        android:layout_height="60dp"
-        android:layout_alignRight="@+id/seekBar1"
-        android:layout_alignTop="@+id/textView1"
-        android:background="@drawable/graybg" >
-
-        <LinearLayout
-            android:layout_width="250dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="5dp"
-            android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:layout_marginTop="5dp"
-            android:orientation="horizontal" >
-
-            <ImageButton
-                android:id="@+id/ImageButton01"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/red"
-                android:onClick="color_red" />
-
-            <ImageButton
-                android:id="@+id/ImageButton02"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/blue"
-                android:onClick="color_blue"
-                android:state_selected="true" />
-
-            <ImageButton
-                android:id="@+id/imageButton03"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/yellow"
-                android:onClick="color_yellow" />
-
-            <ImageButton
-                android:id="@+id/ImageButton04"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/green"
-                android:onClick="color_green" />
-
-            <ImageButton
-                android:id="@+id/ImageButton05"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/cyan"
-                android:onClick="color_cyan" />
-
-            <ImageButton
-                android:id="@+id/ImageButton06"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/magenta"
-                android:onClick="color_magenta" />
-
-            <ImageButton
-                android:id="@+id/ImageButton07"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/white"
-                android:onClick="color_white" />
-
-            <ImageButton
-                android:id="@+id/ImageButton08"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/dkgray"
-                android:onClick="color_dkgray" />
-
-            <ImageButton
-                android:id="@+id/ImageButton09"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/black"
-                android:onClick="color_black" />
-        </LinearLayout>
-    </HorizontalScrollView>
-
     <RadioGroup
         android1:id="@+id/radioGroup1"
         android1:layout_width="wrap_content"
@@ -179,26 +60,6 @@
 
     </RadioGroup>
 
-    <Button
-        android1:id="@+id/button2"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_above="@+id/horizontalScrollView1"
-        android1:layout_marginBottom="89dp"
-        android1:layout_toRightOf="@+id/textView1"
-        android1:onClick="fill_screen"
-        android1:text="Fill Screen" />
-
-    <Button
-        android1:id="@+id/button1"
-        android1:layout_width="wrap_content"
-        android1:layout_height="wrap_content"
-        android1:layout_alignBaseline="@+id/button2"
-        android1:layout_alignBottom="@+id/button2"
-        android1:layout_alignLeft="@+id/textView1"
-        android1:onClick="onClear"
-        android1:text="@string/button_clear" />
-
     <TextView
         android1:id="@+id/TextView01"
         android1:layout_width="wrap_content"
@@ -219,16 +80,164 @@
         android1:max="20"
         android1:progress="1"
         android1:visibility="invisible" />
+    
+    <CheckBox
+        android1:id="@+id/CheckBox01"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/TextView01"
+        android1:layout_alignTop="@+id/TextView01"
+        android1:clickable="true"
+        android1:onClick="showGrid"
+    	android:checked="true"
+        android1:text="Grid" />
+
+    <HorizontalScrollView
+        android1:id="@+id/horizontalScrollView1"
+        android1:layout_width="260dp"
+        android1:layout_height="60dp"
+        android1:layout_alignRight="@+id/seekBar1"
+        android1:layout_below="@+id/textView1"
+        android1:layout_marginTop="35dp"
+        android1:background="@drawable/graybg" >
+
+        <LinearLayout
+            android1:layout_width="250dp"
+            android1:layout_height="50dp"
+            android1:layout_marginBottom="5dp"
+            android1:layout_marginLeft="5dp"
+            android1:layout_marginRight="5dp"
+            android1:layout_marginTop="5dp"
+            android1:orientation="horizontal" >
+
+            <ImageButton
+                android1:id="@+id/ImageButton01"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/red"
+                android1:onClick="color_red" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton02"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/blue"
+                android1:onClick="color_blue" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton03"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/yellow"
+                android1:onClick="color_yellow" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton04"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/green"
+                android1:onClick="color_green" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton05"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/cyan"
+                android1:onClick="color_cyan" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton06"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/magenta"
+                android1:onClick="color_magenta" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton07"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/white"
+                android1:onClick="color_white" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton08"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/dkgray"
+                android1:onClick="color_dkgray" />
+
+            <ImageButton
+                android1:id="@+id/ImageButton09"
+                android1:layout_width="40dp"
+                android1:layout_height="40dp"
+                android1:layout_marginBottom="5dp"
+                android1:layout_marginLeft="5dp"
+                android1:layout_marginRight="5dp"
+                android1:layout_marginTop="5dp"
+                android1:background="@drawable/black"
+                android1:onClick="color_black" />
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <TextView
         android1:id="@+id/textView1"
         android1:layout_width="wrap_content"
         android1:layout_height="wrap_content"
+        android1:layout_alignLeft="@+id/horizontalScrollView1"
         android1:layout_alignTop="@+id/drawView1"
-        android1:layout_marginTop="181dp"
-        android1:layout_toLeftOf="@+id/horizontalScrollView1"
+        android1:layout_marginTop="188dp"
         android1:text="@string/label_color"
         android1:textAppearance="?android:attr/textAppearanceMedium" />
 
+    <Button
+        android1:id="@+id/button1"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_above="@+id/button2"
+        android1:layout_alignLeft="@+id/textView1"
+        android1:onClick="onClear"
+        android1:text="@string/button_clear" />
+
+    <Button
+        android1:id="@+id/button2"
+        android1:layout_width="wrap_content"
+        android1:layout_height="wrap_content"
+        android1:layout_alignBottom="@+id/textView1"
+        android1:layout_alignRight="@+id/textView1"
+        android1:layout_marginBottom="80dp"
+        android1:onClick="fill_screen"
+        android1:text="Fill Screen" />
 
 </RelativeLayout>

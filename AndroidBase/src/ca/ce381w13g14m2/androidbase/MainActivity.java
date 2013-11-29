@@ -8,14 +8,12 @@ import java.net.UnknownHostException;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import android.R.color;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -23,7 +21,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnTouchListener;
 import android.widget.CheckBox;
-import android.widget.ImageView;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.SeekBar;
@@ -148,54 +146,117 @@ public class MainActivity extends Activity {
 	
 	//Send fill screen command to middleman
 	public void fill_screen(View view)
-	{
+	{	
+		drawView.clear = true;
+		drawView.postInvalidate();
+		View draw_area = (ca.ce381w13g14m2.androidbase.DrawView) findViewById(R.id.drawView1);
+		draw_area.setBackgroundColor(DrawView.color);
 		app.instr.setCmd(instr_type.FILL_SCR);
 		app.instr.setColor(DrawView.color);
 		app.instr.setPixel(0);
 	}
 	
+<<<<<<< HEAD
 	//Set brush color when color box pressed
 	//======================================
+=======
+	public void color_red(View view) {
+		DrawView.color = Color.RED;
+		color_border();
+		view.setBackgroundResource(R.drawable.red_border);
+	}
+>>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
 	public void color_blue(View view) {
 		DrawView.color = Color.BLUE;
-		
+		color_border();
+		view.setBackgroundResource(R.drawable.blue_border);
 	}
 	public void color_yellow(View view) {
 		DrawView.color = Color.YELLOW;
+		color_border();
+		view.setBackgroundResource(R.drawable.yellow_border);
 	}
 	public void color_green(View view) {
 		DrawView.color = Color.GREEN;
-		
-	}
-	public void color_red(View view) {
-		DrawView.color = Color.RED;
+		color_border();
+		view.setBackgroundResource(R.drawable.green_border);
 	}
 	public void color_white(View view) {
 		DrawView.color = Color.WHITE;
+		color_border();
+		view.setBackgroundResource(R.drawable.white_border);
 	}
 	public void color_black(View view) {
 		DrawView.color = Color.BLACK;
+		color_border();
+		view.setBackgroundResource(R.drawable.black_border);
 	}
 	public void color_cyan(View view) {
 		DrawView.color = Color.CYAN;
+		color_border();
+		view.setBackgroundResource(R.drawable.cyan_border);
 	}
 	public void color_magenta(View view) {
 		DrawView.color = Color.MAGENTA;
+		color_border();
+		view.setBackgroundResource(R.drawable.magenta_border);
 	}
 	public void color_dkgray(View view) {
 		DrawView.color = Color.DKGRAY;
+		color_border();
+		view.setBackgroundResource(R.drawable.dkgray_border);
 	}
+<<<<<<< HEAD
 	
 	//Clear drawView and send a FillScr(White)
 	//command to middleman
+=======
+
+	public void color_border()
+	{
+		View red = (ImageButton) findViewById(R.id.ImageButton01);
+		View blue = (ImageButton) findViewById(R.id.ImageButton02);
+		View yellow = (ImageButton) findViewById(R.id.ImageButton03);
+		View green = (ImageButton) findViewById(R.id.ImageButton04);
+		View cyan = (ImageButton) findViewById(R.id.ImageButton05);
+		View magenta = (ImageButton) findViewById(R.id.ImageButton06);
+		View white = (ImageButton) findViewById(R.id.ImageButton07);
+		View dkgray = (ImageButton) findViewById(R.id.ImageButton08);
+		View black = (ImageButton) findViewById(R.id.ImageButton09);
+
+		red.setBackgroundResource(R.drawable.red);
+		blue.setBackgroundResource(R.drawable.blue);
+		yellow.setBackgroundResource(R.drawable.yellow);
+		green.setBackgroundResource(R.drawable.green);
+		cyan.setBackgroundResource(R.drawable.cyan);
+		magenta.setBackgroundResource(R.drawable.magenta);
+		white.setBackgroundResource(R.drawable.white);
+		dkgray.setBackgroundResource(R.drawable.dkgray);
+		black.setBackgroundResource(R.drawable.black);
+	}
+
+>>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
 	public void onClear(View view)
 	{
+		View draw_area = (ca.ce381w13g14m2.androidbase.DrawView) findViewById(R.id.drawView1);
+		draw_area.setBackgroundResource(R.drawable.grid);
 		drawView.clear = true;
 		drawView.postInvalidate();
+        CheckBox check = (CheckBox) findViewById(R.id.CheckBox01);
+        check.setChecked(true);
 		app.instr.setCmd(instr_type.FILL_SCR);
 		app.instr.setColor(Color.WHITE);
 		app.instr.setPixel(0);
-		
+	}
+	
+	public void showGrid(View view)
+	{
+        CheckBox check = (CheckBox) findViewById(R.id.CheckBox01);
+		View draw_area = (ca.ce381w13g14m2.androidbase.DrawView) findViewById(R.id.drawView1);
+		if (check.isChecked())
+			draw_area.setBackgroundResource(R.drawable.grid);
+		else
+			draw_area.setBackgroundColor(Color.WHITE);
 	}
 	
 	//Disconnect from middleman
@@ -268,7 +329,7 @@ public class MainActivity extends Activity {
 					in = app.getSock().getInputStream();
 
 					// See if any bytes are available from the Middleman
-					
+
 					int bytes_avail = in.available();
 					if (bytes_avail >=7) {
 						in.read(buf);

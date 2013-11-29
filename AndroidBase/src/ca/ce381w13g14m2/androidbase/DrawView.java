@@ -62,12 +62,17 @@ public class DrawView extends View implements OnTouchListener {
     	boolean first = true;
     	
         path.paint.setStrokeWidth(MainActivity.brushWidth);
+        path.paint.setStrokeWidth(3);
     	if(clear)
     	{
     		clear = false;
     		points.clear();
+    		paths.removeAll(points);
     		for (int i = 0;i<paths.size();i++)
+    		{
         		paths.get(i).onePath.reset();
+    		}
+
     	}
     	path.paint.setColor(color);
         path.paint.setAlpha(170);
@@ -141,10 +146,14 @@ public class DrawView extends View implements OnTouchListener {
         else //if(radio.getCheckedRadioButtonId()==R.id.radio_fill_color)
         {
         	cmd=instr_type.FILL_COLOR;
-        	radio.check(oldRadioId);
+        	//radio.check(oldRadioId);
         }
+<<<<<<< HEAD
 	      
         // Debug message
+=======
+        
+>>>>>>> d2913f8da0c29e1ce67f562036f019d80fd0fcdf
         send_data = Integer.toString(i);
         Log.d("TimerTask", "Cmd:"+cmd+" X:"+Float.toString(point.x)+" Y:"+Float.toString(point.y));
         
