@@ -104,6 +104,14 @@
         android:onClick="sendMessage"
         android:text="Send Test Message" />
 
+    <CheckBox
+        android:id="@+id/check_box2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:clickable="false"
+        android:text="Connected" />
+
     <TextView
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -128,12 +136,5 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:inputType="number" />
-
-    <CheckBox
-        android:id="@+id/check_box2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:clickable="false"
-        android:text="Connected" />
 
 </LinearLayout>

@@ -24,12 +24,17 @@
 //Globals
 unsigned short* image;
 unsigned short* back_buffer;
-alt_u8 buf_swap,check_uart;
+alt_u8 buf_swap,check_uart,buf_swap_ctr;
 
 alt_u32 isr_alarm(void* context)
 {
-	buf_swap=1;
+	if(buf_swap_ctr==0)
+	{
+		buf_swap=1;
+		buf_swap_ctr=2;
+	}
 	check_uart=1;
+	buf_swap_ctr--;
 	return 1;
 }
 
@@ -147,7 +152,7 @@ int main(int argc, char** argv)
 	nticks=alt_ticks_per_second();
 	sdcard_init();
 	uart = rs232_inti();
-
+	buf_swap_ctr=0;
 
 
 	//Boolean loop controllers
@@ -176,7 +181,7 @@ int main(int argc, char** argv)
 	//SetUp
 	clrScr(screen);
 	back_buffer=alt_remap_uncached((void*)screen->back_buffer_start_address,STD_W*STD_H);
-	if(alt_alarm_start(alarm,nticks/30,isr_alarm,NULL)<0)printf("\nNo Alarm 1\n");
+	if(alt_alarm_start(alarm,nticks/60,isr_alarm,NULL)<0)printf("\nNo Alarm 1\n");
 	clear_fifo(uart, &data, &parity);
 
 	//main loop
