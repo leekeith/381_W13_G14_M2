@@ -13,6 +13,7 @@
 #include"sys/alt_irq.h"
 #include<sys/alt_alarm.h>
 #include "rs232.h"
+#include"lib_instr.h"
 
 //Set up rs232
 alt_up_rs232_dev* rs232_inti(){
@@ -33,15 +34,23 @@ void make_command(alt_up_rs232_dev* uart, unsigned char instr[]){
 	unsigned char data,parity;
     int counter = 0;
     //char stringr[7];
-	while(alt_up_rs232_get_used_space_in_read_FIFO(uart) <7);
+    if(alt_up_rs232_get_used_space_in_read_FIFO(uart)>0)
+    {
+		while(alt_up_rs232_get_used_space_in_read_FIFO(uart) <7);
 
-	while(counter < 7){
-		alt_up_rs232_read_data(uart, &data, &parity);
-		instr[counter] = data;
-		printf("%X",instr[counter]);
-		counter++;
-	}
-	printf("\n");
+		while(counter < 7){
+			alt_up_rs232_read_data(uart, &data, &parity);
+			if(counter==0)
+			{
+				while(data!=FILL_PIXEL && data!=FILL_SCR && data!=SAVE && data!=FILL_COLOR && data!=QUIT && data!=LINE_START && data!=LINE_PT && data!=LINE_END)
+					alt_up_rs232_read_data(uart, &data, &parity);
+			}
+			instr[counter] = data;
+			printf("%X",instr[counter]);
+			counter++;
+		}
+		printf("\n");
+    }
 }
 
 //Sends data out when write fifo has space

@@ -6,6 +6,7 @@
  */
 #include"lib_instr.h"
 #include"rs232.h"
+#include"lib_bitmap.h"
 
 void instr_make(instr_t* instr, unsigned char string[7])
 {
@@ -16,6 +17,8 @@ void instr_make(instr_t* instr, unsigned char string[7])
 	//for(i=0;i<120 && string[7+i]!=0;i++)
 	//	instr->message[i]=string[7+i];
 	//instr->message[i]=0;
+	if(instr->pixel>STD_W*STD_H || instr->pixel<0)
+		instr->cmd=NONE;
 }
 
 void instr_send(instr_t* instr, alt_up_rs232_dev* uart)
